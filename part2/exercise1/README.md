@@ -1,7 +1,7 @@
-# Exposing a service
-In this exercise, we'll deploy a front-end application and set-up a continuous deployment pipeline for our development environment.
+# Deployment pipeline
+In this exercise, we'll deploy a front-end application and set-up a pipeline for our development environment.
 
-## Pipeline deployment
+## Pipeline configuration
 First create a new application named "**xebifront**".
 > refer to [exercise 1](../../part1/exercise1/README.md) if you need a reminder about how to create an application
 

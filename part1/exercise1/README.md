@@ -1,4 +1,4 @@
-# My first deployment
+# First deployment
 In this section, you will deploy a basic application to Kubernetes with Spinnaker.
 
 First, you'll need to access the [Spinnaker UI](http://someSpinnakerUI.com).  
