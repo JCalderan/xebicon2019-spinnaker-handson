@@ -1,5 +1,5 @@
 # Get Started
-In this hands on we will focus on using **Spinnaker** in order to orchestrate deployment of resources on Kubernetes.
+In this hands-on we will focus on using **Spinnaker** in order to orchestrate deployment of resources on Kubernetes.
 
 > Spinnaker is a cloud native Continuous Deployment tool developed by Netflix in collaboration with Google, Pivotal, and Microsoft.
 
@@ -21,7 +21,7 @@ The following diagram shows how each of theses micro-services interact with each
 ![A diagram showing how services interact with each others](../part2/spinnaker_architecture_schema.jpeg)  
 More information can be found on the [official Spinnaker documentation](https://www.spinnaker.io/reference/architecture/).
 
-Installing Spinnaker being outside of the scope of this hands'on, all theses services have already been deployed on Kubernetes.
+Installing Spinnaker being outside of the scope of this hands-on, all theses services have already been deployed on Kubernetes.
 
 
 [next](exercise1/README.md)

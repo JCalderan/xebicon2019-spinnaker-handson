@@ -1,6 +1,6 @@
 ![Spinnaker logo](./spinnakerLogo.png)
 
-This hands on is an introduction to Spinnaker as a tool to setup Continuous Deployment on Kubernetes.
+This hands-on is an introduction to Spinnaker as a tool to setup Continuous Deployment on Kubernetes.
 
 ## Plan
 - Part 1 : Get started 🌶
