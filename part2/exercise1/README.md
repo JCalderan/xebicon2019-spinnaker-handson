@@ -3,7 +3,7 @@ In this exercise, we'll deploy a front-end application and set-up a continuous d
 
 ## Pipeline deployment
 First create a new application named "**xebifront**".
-> refer to [exercise 1](../exercise1/README.md) if you need a reminder about how to create an application
+> refer to [exercise 1](../../part1/exercise1/README.md) if you need a reminder about how to create an application
 
 Then head to the "**Pipeline**" tab: 
 - click "**configure a new pipeline**"
@@ -102,4 +102,4 @@ Our pipeline ensure new pods won't be deployed if an error occurs when deploying
 
 > Using Spinnaker Pipeline, we are able to coordinate deployment of Kubernetes resources depending on each others.
 
-[previous](../exercise1/README.md) | [next](../exercise3/README.md)
+[previous](../../part1/exercise1/README.md) | [next](../exercise2/README.md)

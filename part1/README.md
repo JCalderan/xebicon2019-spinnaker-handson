@@ -18,10 +18,10 @@ Spinnaker is actually a set of micro-services working together in order to achie
 - [Halyard](https://github.com/spinnaker/halyard) is Spinnaker’s configuration service: Halyard manages the lifecycle of each of the above services. It only interacts with these services during Spinnaker startup, updates, and rollbacks.
 
 The following diagram shows how each of theses micro-services interact with each others.
-![A diagram showing how services interact with each others](./spinnaker_architecture_schema.jpeg)  
+![A diagram showing how services interact with each others](../part2/spinnaker_architecture_schema.jpeg)  
 More information can be found on the [official Spinnaker documentation](https://www.spinnaker.io/reference/architecture/).
 
 Installing Spinnaker being outside of the scope of this hands'on, all theses services have already been deployed on Kubernetes.
 
 
-[next](./exercise1/README.md)
+[next](exercise1/README.md)
