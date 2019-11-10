@@ -24,4 +24,4 @@ More information can be found on the [official Spinnaker documentation](https://
 Installing Spinnaker being outside of the scope of this hands-on, all theses services have already been deployed on Kubernetes.
 
 
-[next](exercise1/README.md)
+[next](./exercise1/README.md)

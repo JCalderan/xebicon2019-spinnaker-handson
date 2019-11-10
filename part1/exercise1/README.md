@@ -61,4 +61,4 @@ $ kubectl apply -f myDeployment.yaml
 
 Let's continue to the next part.
 
-[previous](../getStarted.md) | [next](../../part2/exercise1/README.md)
+[previous](../README.md) | [next](../../part2/exercise1/README.md)
