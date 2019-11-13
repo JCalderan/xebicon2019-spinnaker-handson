@@ -32,7 +32,6 @@ spec:
   # selectors are used to find and update pods
   selector:
     app: xebifront
-    version: v1
     environment: dev
   ports:
     - protocol: TCP
@@ -67,7 +66,6 @@ spec:
     # labels used to find pods managed by this deployment
     matchLabels:
       app: xebifront
-      version: v1
       environment: dev
   # pods template
   template:
@@ -75,7 +73,6 @@ spec:
       # labels set to pods created by this deployment
       labels:
         app: xebifront
-        version: v1
         environment: dev
     spec:
       containers:
