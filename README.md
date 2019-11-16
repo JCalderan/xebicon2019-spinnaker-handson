@@ -8,7 +8,7 @@ This hands-on is an introduction to Spinnaker as a tool to setup Continuous Depl
     - [1 mins] [First deployment](./part1/exercise1/README.md)
 - Part 2 : Pipelines 🌶
     - [5 mins] [Deployment pipeline](./part2/exercise1/README.md)
-    - [5 mins] [Pipeline parametrization](./part2/exercise2/README.md) TODO
+    - [5 mins] [Pipeline parametrization](./part2/exercise2/README.md)
     - [5 mins] [Application configuration](./part2/exercise3/README.md) TODO
     - [5 mins] [Liveness and Readyness probes](./part2/exercise4/README.md) TODO
 - Part 3 : Zero downtime deployment 🌶🌶
