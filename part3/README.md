@@ -22,4 +22,5 @@ After a little time, we noticed that the application have some bugs that we coul
 
 ![Switch Back to the blue version](images/B_G-KO.svg)
 
+[previous](../part2/exercise2/README.md) | [next](./exercice1/README.md)
 
