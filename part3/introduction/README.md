@@ -1,4 +1,5 @@
 # Blue/Green deployment
+## Introduction
 The Blue/Green deployment called Red/Black in Spinnaker is a technique of releasing application new version by switching traffic between to identical enviroment.
 This technique prevent common risque associeted with deploying software suck as downtime and rollback capability.
 The blue enviromment represent current application version serving production traffic. In Parrarel, the green enviroment is staged running a different version of the application. After the green enviroment is ready and tested, production traffic is redirected from blue to the green enviroment.
