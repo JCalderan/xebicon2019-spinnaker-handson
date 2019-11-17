@@ -68,6 +68,8 @@ You should replace the comment in the template by a values of your choise.
 </p>
 </details>
 
+You can run the service pipeline to create it.
+
 Create a new pipeline called Xebicon-deployment from this template:
 
 <details><summary>Deployment pipeline</summary>
@@ -159,3 +161,16 @@ Create a new pipeline called Xebicon-deployment from this template:
 </p>
 </details>
 
+
+Let update our app the new version using B/G deployment.
+
+You can change your application version to V2. We suppose that this version is production ready.
+to do this, please follow the instruction bellow:
+1. Check the Box "Spinnaker manages traffic based on your selected strategy" in the  Rollout Strategy Options section 
+![Switch Back to the blue version](./images/enablebg.png)
+2. Select the service created by the previous pipeline
+3. Select Red/Black as deployment strategy
+4. Save the pipeline
+5. Run the pipeline
+
+You can navigate the the infracture and check the new replicaset created by this deployment
