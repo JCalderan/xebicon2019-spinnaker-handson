@@ -72,6 +72,7 @@ Create a new pipeline called Xebicon-deployment from this template:
 
 <details><summary>Deployment pipeline</summary>
 <p>
+
 ```
 
 {
@@ -154,6 +155,7 @@ Create a new pipeline called Xebicon-deployment from this template:
 }
 
 ```
+
 </p>
 </details>
 
