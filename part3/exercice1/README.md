@@ -6,9 +6,11 @@ You can start the application from this pipeline templates:
 Create a new pipeline called Xebicon-service from this template:
 You should replace the comment in the template by a values of your choise.
 
-<details><summary>CLICK ME</summary>
+<details><summary>Service pipeline</summary>
 <p>
+
 ```
+
 {
   "isNew": true,
   "keepWaitingPipelines": false,
@@ -61,15 +63,17 @@ You should replace the comment in the template by a values of your choise.
   ],
   "triggers": [],
 }
+
 ```
 </p>
 </details>
 
 Create a new pipeline called Xebicon-deployment from this template:
 
-<details>
+<details><summary>Deployment pipeline</summary>
 <p>
 ```
+
 {
   "keepWaitingPipelines": false,
   "limitConcurrent": true,
@@ -148,6 +152,7 @@ Create a new pipeline called Xebicon-deployment from this template:
   "triggers": [],
   "updateTs": "1573933939000"
 }
+
 ```
 </p>
 </details>
