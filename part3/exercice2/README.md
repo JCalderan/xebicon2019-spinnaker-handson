@@ -15,7 +15,7 @@ For this exercice:
 
 * The readinees probe is available via http on port 8081 /ready.
 
-<details><summary>Task One:</summary>
+<details><summary>### Task One:</summary>
 <p>
 
 ```
