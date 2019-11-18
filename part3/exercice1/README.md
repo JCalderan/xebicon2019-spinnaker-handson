@@ -1,10 +1,18 @@
 # Blue/Green deployment
 ## Exercice 1:
 
+To use Spinnaker Red/Black deployment, we are going to use ReplicaSet instead of deployment
+
 You can start the application from this pipeline templates:
 
 Create a new pipeline called Xebicon-service from this template:
+
 You should replace the comment in the template by a values of your choise.
+
+For each template, you should create a new pipeline. 
+
+In the pipeline Actions, you can click on `edit as Json` and paste the template.
+
 
 <details><summary>Service pipeline</summary>
 <p>
@@ -78,82 +86,50 @@ Create a new pipeline called Xebicon-deployment from this template:
 ```
 
 {
-  "keepWaitingPipelines": false,
-  "limitConcurrent": true,
-  "parameterConfig": [
-    {
-      "default": "",
-      "description": "",
-      "hasOptions": false,
-      "label": "Version",
-      "name": "version",
-      "options": [
-        {
-          "value": ""
-        }
-      ],
-      "pinned": false,
-      "required": true
-    }
-  ],
-  "stages": [
-    {
-      "account": "my-k8s-v2-account",
-      "cloudProvider": "kubernetes",
-      "manifests": [
-        {
-          "apiVersion": "apps/v1",
-          "kind": "Deployment",
-          "metadata": {
-            "labels": null,
-            "name": "pod"
-          },
-          "spec": {
-            "replicas": null,
-            "selector": {
-              "matchLabels": null
+    "stages": [
+      {
+        "account": "my-k8s-v2-account",
+        "cloudProvider": "kubernetes",
+        "manifests": [
+          {
+            "apiVersion": "v1",
+            "kind": "Service",
+            "metadata": {
+              "name": "my-service",
+              "namespace": "dev"
             },
-            "template": {
-              "metadata": {
-                "labels": null
-              },
-              "spec": {
-                "containers": [
-                  {
-                    "image": null,
-                    "name": "pod"
-                  }
-                ]
+            "spec": {
+              "ports": [
+                {
+                  "port": 80,
+                  "protocol": "TCP"
+                }
+              ],
+              "selector": {
+                "frontedBy": "my-service"
               }
             }
           }
-        }
-      ],
-      "moniker": {
-        "app": "test1"
-      },
-      "name": "Deploy (Manifest)",
-      "namespaceOverride": "dev",
-      "refId": "1",
-      "requisiteStageRefIds": [],
-      "skipExpressionEvaluation": false,
-      "source": "text",
-      "trafficManagement": {
-        "enabled": true,
-        "options": {
-          "enableTraffic": true,
-          "namespace": "dev",
-          "services": [
-            "service pod"
-          ],
-          "strategy": "redblack"
-        }
-      },
-      "type": "deployManifest"
-    }
-  ],
-  "triggers": [],
-  "updateTs": "1573933939000"
+        ],
+        "moniker": {
+          "app": "test1"
+        },
+        "name": "Deploy (Manifest)",
+        "namespaceOverride": "",
+        "refId": "1",
+        "requisiteStageRefIds": [],
+        "skipExpressionEvaluation": false,
+        "source": "text",
+        "trafficManagement": {
+          "enabled": false,
+          "options": {
+            "enableTraffic": false,
+            "services": []
+          }
+        },
+        "type": "deployManifest"
+      }
+    ]
 }
 
 ```
@@ -173,4 +149,8 @@ to do this, please follow the instruction bellow:
 4. Save the pipeline
 5. Run the pipeline
 
-You can navigate to the infrastructure and check the new replicaset created by this deployment
+You can navigate to the infrastructure and check the new replicaset created by this pipeline
+
+You can notice the previous replicaset is disabled and the pods are still running
+
+
