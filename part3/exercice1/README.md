@@ -173,4 +173,4 @@ to do this, please follow the instruction bellow:
 4. Save the pipeline
 5. Run the pipeline
 
-You can navigate the the infracture and check the new replicaset created by this deployment
+You can navigate to the infrastructure and check the new replicaset created by this deployment
