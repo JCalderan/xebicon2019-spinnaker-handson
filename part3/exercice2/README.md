@@ -15,7 +15,7 @@ For this exercice:
 
 * The readinees probe is available via http on port 8081 /ready.
 
-<details><summary>### Task One:</summary>
+<details><summary>Task One:</summary>
 <p>
 
 ```
@@ -32,8 +32,10 @@ The application version with broken tag response 500 on path /heathz
 </p>
 </details>
 
-### Task Two:
+<details><summary>Task Two:</summary>
+<p>
 
+```
 The previous pipeline fails because our container is not ready to start 
 
 So deploy a new application version with /heathz that response 200 
@@ -41,9 +43,16 @@ So deploy a new application version with /heathz that response 200
 * You can deploy application version V3
 
 * What do you observe in the infrastructure section ?
+```
 
-### Task Three:
+</p>
+</details>
 
+
+<details><summary>Task Three:</summary>
+<p>
+
+```
 The liveness probe is a flag to indicate that our container is UP, but it can't verify that our application can serve traffic
 
 The Readiness probe can be used to check that the application critical component are ready to serve request
@@ -53,9 +62,16 @@ The Readiness probe can be used to check that the application critical component
 * Deploy The application version with brokenReadiness
 
 * What do you observe in the infrastructure section? 
- 
-### Task Four:
+```
 
+</p>
+</details>
+
+
+<details><summary>Task Four:</summary>
+<p>
+
+```
 The previous pipeline fails because our container is not ready to serve request 
 
 A new application version is available with /ready that response 200 
@@ -63,3 +79,7 @@ A new application version is available with /ready that response 200
 * You can deploy application version V4
 
 * What do you observe in the infrastructure section ?
+```
+
+</p>
+</details>
