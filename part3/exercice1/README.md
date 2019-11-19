@@ -153,4 +153,6 @@ You can navigate to the infrastructure and check the new replicaset created by t
 
 You can notice the previous replicaset is disabled and the pods are still running
 
+[previous](../README.md) | [next](../exercice2/README.md)
+
 

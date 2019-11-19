@@ -83,3 +83,5 @@ A new application version is available with /ready that response 200
 
 </p>
 </details>
+
+[previous](../exercice2/README.md)

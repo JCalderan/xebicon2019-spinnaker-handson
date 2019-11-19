@@ -16,3 +16,16 @@ Let's create the pipeline bellow:
 How can you improve this pipeline to prevent downtime?
 
 
+<details><summary>Solution</summary>
+<p>
+
+
+![Solution](./images/solution.png)
+
+
+</p>
+</details>
+
+
+[previous](../exercice1/README.md) | [next](../exercice3/README.md)
+
