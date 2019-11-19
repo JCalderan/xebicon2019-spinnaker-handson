@@ -1,18 +1,18 @@
 # Pipeline parametrization
 Each pipeline begin with a step called "Configuration", which contains six sections.
-We will go overs all of them, and see how they allow us to make our pipeline reusable. 
+We will go overs all of them, and see how they allow us to build more flexible pipeline. 
 
 ## Execution Options
-The options here are self explanatory.  
-They allow us to adapt ours CD workload to the need of our development platform and the resources available.
+Options here are self explanatory.  
+They allow us to adapt ours Continuous Delivery workload to the need of our development platform and the resources available.
 
 ## Expected Artifacts
 Because pipelines can be triggered by stages in other pipelines, or be triggered by remote services (Circle CI for instance), 
 they may depends on external resources produced by theses upstream stages or services in order to work correctly.  
 Theses external resources are called [Artifacts](https://www.spinnaker.io/reference/artifacts/in-pipelines/).
 
-Spinnaker defines a specification in order to describe artifacts, and all artifact must match this specification.  
-```json
+Spinnaker defines a specification in order to describe artifacts, and every artifact must match this specification.  
+```
 {
   "type":       // How this artifact is classified. Allows for easy distinction
                 // between docker images and debian packages, for example.
@@ -45,8 +45,8 @@ Spinnaker defines a specification in order to describe artifacts, and all artifa
 ```
 Thus when an artifact is injected into a pipeline execution context, the pipeline actually receive a JSON payload compliant with the artifact specification.  
 
-When we defined an "**Expected Artifact**", we actually defined a template against which each artifact received by the pipeline will be matched, until one and only one artifact match.  
-If no artifacts match, we can choose to use backup strategies, other wise the pipeline will fail.
+When we define an "**Expected Artifact**", we actually define a template against which each artifact received by the pipeline will be matched, until one and only one artifact match.  
+If no artifacts match, we can choose to use backup strategies, otherwise the pipeline will fail.
 
 An artifact matched successfully against an expected artifact is said to be "**bound**" to this expected artifact.  
 This allows to reference expected artifacts in downstream stages, with the actual artifact being bound at runtime.
@@ -73,7 +73,7 @@ Here is an example payload for a [webHook automated trigger](https://www.spinnak
 }
 ```
 
-Note that a pipeline can always be trigger manually, even if it specify an automated trigger.
+A pipeline can always be trigger manually, even if it specify an automated trigger.
 
 ## Parameters
 This section allows us to define parameters for our pipeline.  
@@ -91,8 +91,157 @@ This section allows to setup notification channels hooked on the pipeline's life
 # Exercise
 Go to the configuration page of the pipeline created in the [previous exercise](./../exercise1/README.md).   
 
-We hardcoded the version of Xebifront to the value 'v1' (see the Service and Deployment manifest).  
+We hardcoded the version of "xebicon-frontend" to the value "v1" (see the Service and ReplicaSet manifest).  
 Modify the pipeline in order be able to specify the version at runtime:
-- add a parameter 'version'
-- modify the Service manifest to use this parameter
-- modify the Deployment manifest to use this parameter
+- add a parameter "version"
+- update the Service manifest
+- update the ReplicaSet manifest
+
+> Services route traffic to pods whose labels match the Service selectors
+
+<details>
+    <summary>Solution</summary>
+    <p>
+    Click "**Pipeline Actions**" (upper right), then click "Edit as JSON", and copy paste the following JSON.
+
+```json
+{
+  "keepWaitingPipelines": false,
+  "lastModifiedBy": "anonymous",
+  "limitConcurrent": true,
+  "parameterConfig": [
+    {
+      "default": "v2",
+      "description": "application version",
+      "hasOptions": true,
+      "label": "version",
+      "name": "version",
+      "options": [
+        {
+          "value": "v1"
+        },
+        {
+          "value": "v2"
+        }
+      ],
+      "pinned": false,
+      "required": true
+    }
+  ],
+  "stages": [
+    {
+      "account": "kubernetes",
+      "cloudProvider": "kubernetes",
+      "manifests": [
+        {
+          "apiVersion": "v1",
+          "kind": "Service",
+          "metadata": {
+            "name": "xebicon-frontend-service"
+          },
+          "spec": {
+            "ports": [
+              {
+                "port": 9080,
+                "protocol": "TCP",
+                "targetPort": 80
+              }
+            ],
+            "selector": {
+              "app": "xebicon-frontend",
+              "environment": "dev",
+              "version": "${parameters.version}"
+            },
+            "type": "LoadBalancer"
+          }
+        }
+      ],
+      "moniker": {
+        "app": "xebicon-frontend"
+      },
+      "name": "Deploy Service",
+      "namespaceOverride": "",
+      "refId": "1",
+      "requisiteStageRefIds": [],
+      "skipExpressionEvaluation": false,
+      "source": "text",
+      "trafficManagement": {
+        "enabled": false,
+        "options": {
+          "enableTraffic": false,
+          "services": []
+        }
+      },
+      "type": "deployManifest"
+    },
+    {
+      "account": "kubernetes",
+      "cloudProvider": "kubernetes",
+      "manifests": [
+        {
+          "apiVersion": "apps/v1",
+          "kind": "ReplicaSet",
+          "metadata": {
+            "labels": {
+              "app": "xebicon-frontend"
+            },
+            "name": "xebicon-frontend-deployment"
+          },
+          "spec": {
+            "replicas": 1,
+            "selector": {
+              "matchLabels": {
+                "app": "xebicon-frontend",
+                "environment": "dev",
+                "version": "${parameters.version}"
+              }
+            },
+            "template": {
+              "metadata": {
+                "labels": {
+                  "app": "xebicon-frontend",
+                  "environment": "dev",
+                  "version": "${parameters.version}"
+                }
+              },
+              "spec": {
+                "containers": [
+                  {
+                    "image": "jcalderan/xebicon-frontend:${parameters.version}",
+                    "name": "xebicon-frontend",
+                    "ports": [
+                      {
+                        "containerPort": 80
+                      }
+                    ]
+                  }
+                ]
+              }
+            }
+          }
+        }
+      ],
+      "moniker": {
+        "app": "xebicon-frontend"
+      },
+      "name": "Deploy (Manifest)",
+      "refId": "2",
+      "requisiteStageRefIds": [
+        "1"
+      ],
+      "skipExpressionEvaluation": false,
+      "source": "text",
+      "trafficManagement": {
+        "enabled": false,
+        "options": {
+          "enableTraffic": false,
+          "services": []
+        }
+      },
+      "type": "deployManifest"
+    }
+  ],
+  "triggers": [],
+  "updateTs": "1574203205000"
+}
+```
