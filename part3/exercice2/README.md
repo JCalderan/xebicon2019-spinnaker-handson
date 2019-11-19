@@ -6,12 +6,14 @@ Let's create the pipeline bellow:
 
 ![Switch Back to the blue version](./images/rollback.png)
 
-* Create new Stage: this stage is enable the previous application version
+* Create new Stage: this stage enable the v1 application version
 * This Stage should depend from the pipeline input
 * Choose enable manifest and select the second newest version
-* Create another stage: this stage will disable the newest version 
+* Create another stage: this stage will disable the v2 application version 
 * This Stage should depend from the pipeline input
-* Choose enable Manifest and select the second newest version
+* Choose enable Manifest and select the newest version
+* Run the pipeline
+* You can check the infrastructure to check that the rollback is successful
 
 How can you improve this pipeline to prevent downtime?
 

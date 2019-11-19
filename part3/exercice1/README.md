@@ -1,13 +1,13 @@
 # Blue/Green deployment
 ## Exercice 1:
 
-To use Spinnaker Red/Black deployment, we are going to use ReplicaSet instead of deployment
+To use Spinnaker Red/Black deployment, we are going to use ReplicaSet instead of deployment.
 
 You can start the application from this pipeline templates:
 
-Create a new pipeline called Xebicon-service from this template:
+Create a new pipeline called Xebicon-service from this template.
 
-You should replace the comment in the template by a values of your choise.
+You should replace the comment in the template by a value of your choice.
 
 For each template, you should create a new pipeline. 
 
