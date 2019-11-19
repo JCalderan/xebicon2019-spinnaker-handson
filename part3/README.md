@@ -10,7 +10,7 @@ For example, We have an application called Xebicon. This application is served b
 
 We Need to update our application to a version V2. V2 become our green version. We should lunch this version a check if everything is working as exspected
 
-![Lunch Green version](images/B_G-Blue.svg)
+![Lunch Green version](images/B_G-Green.svg)
 
 After Checking that the green version is Ok, we switch the traffic from the blue version to the green version. 
 
