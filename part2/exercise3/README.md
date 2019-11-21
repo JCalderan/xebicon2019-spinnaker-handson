@@ -7,64 +7,64 @@ In order to get it working, we'll need to deploy two new applications:
 - xebicon-backend: the API consumed by xebicon-frontend
 - xebicon-database: the database hosting the Xebicon slots data 
 
-## Seting up the backend application
-Create a new application "**xebicon-backend**", and set up a new pipeline in order to:
-- deploy a new Service named "xebicon-backend"
-- deploy a Kubernetes ReplicaSet (use the docker image ```jcalderan/xebicon-backend:v1```)
-
-This application is a simple Node.js application which **listen on port 8080**, and exposes **two endpoints**:
-- /slots: fetch all slots stored in database
-- /health: return ```200 OK {"status": "up"}``` when the application is up and running 
-
-## Setting up the database
-Create a new application "**xebicon-database**", and set up a new pipeline in order to:
-- deploy a new Service named "xebicon-database"
-- deploy a Kubernetes replicaSet (use the docker image ```jcalderan/xebicon-database:v1```)
-
-This application is a single node MongoDB database which **listen on port 27017**.
-
-## Wiring up everything
-We need to connect all three components.  
-
-Both the Front-End and the Back-End applications have to be exposed to the Internet through a domain name, 
+Both the Front-End and the Back-End applications have to be exposed to the Internet through a publicly reachable URL, 
 while the database must only be accessible from the inside of the Cluster.  
 The following diagram illustrate this setup.
 ![Target deployment diagram](./xebia-stack.svg)
 
-In order to access both applications from the Internet, we will use a domain name which resolve to our kubernetes cluster:
-- Route53 is a DNS web service by AWS, which has already been provisioned in order to resolve the domain name ```*.my-cluster.com```
-- Elastic Load Balancer, is an AWS Load Balancer which has been provisioned in order to forward traffic to the Kubernetes cluster nodes.  
-- Ingress Controller is a Kubernetes components which implements Ingress rules in order to root incoming traffic to relevant Services.
+## Seting up the backend application
+Create a new pipeline "**backend-dev**" in order to:
+- deploy a new Service named "xebicon-backend"
+- deploy a new Ingress named "xebicon-backend"
+- deploy a Kubernetes ReplicaSet (use the docker image ```jcalderan/xebicon-backend:v1```)
 
-Thus, route53 will resolve any sub-domain of ```*.my-cluster.com``` and forward the traffic to the ELB which in turn will forward the traffic to the kubernetes cluster node.
+This application is a simple Node.js application which **listen on port 8080**, and exposes **two endpoints**:
+- /: fetch all slots stored in database
+- /health: return ```200 OK {"status": "up"}``` when the application is up and running 
+
+## Setting up the database
+Create a new pipeline "**xebicon-database**" in order to:
+- deploy a new Service named "xebicon-database"
+- deploy a Kubernetes replicaSet (use the docker image ```jcalderan/xebicon-database:v1```)
+
+This application is a single node MongoDB database which **listen on port 27017**.
+The database being unreachable from the outside of the cluster, we won't deploy an Ingress rule for this application.
+
+## Wiring up everything
+We need to connect all three components.  
+
+In order to access both applications from the Internet, we will use a domain name which resolve to our kubernetes cluster:
+- [Route53](https://aws.amazon.com/en/route53/) is a DNS web service by AWS, which has already been provisioned in order to resolve the domain name ```*.my-cluster.com```
+- [Elastic Load Balancer](https://aws.amazon.com/elasticloadbalancing/), is an AWS Load Balancer which has been provisioned in order to forward traffic to the Kubernetes cluster nodes.  
+- [Ingress Controller](https://kubernetes.io/docs/concepts/services-networking/ingress-controllers/) is a Kubernetes components which implements Ingress rules in order to root incoming traffic to relevant Services.
+
+Thus, route53 will resolve any sub-domain of ```*.my-cluster.com``` and forward the traffic to the ELB which in turn will forward the traffic to the kubernetes cluster node. When a request hit a cluster node, the Ingress Controller will look for matching Ingress rules, and route traffic to Services according to these rules.
  
 Services and Pods names can be resolved [using DNS names](https://kubernetes.io/docs/concepts/services-networking/dns-pod-service/)
 inside a Kubernetes cluster, using a name of the form:
 - my-service.my-namespace.svc.cluster-domain.example
 - my-pod.my-namespace.svc.cluster-domain.example
 
-This means the application **xebicon-backend** can connect to the **xebicon-database** Service using the DNS name ```xebicon-database.your-namespace.svc.cluster.local```.
+This means any **xebicon-backend** pod can connect to the **xebicon-database** Service using the DNS name ```xebicon-database.your-namespace.svc.cluster.local``` (or just ```xebicon-database``` if they both live in the same namespace).
 
-### Exercise
-- Bake a set of Ingress Rules ???
-- Update xebia-frontend service (TODO: give more insights)
-- Update xebia-backend service(TODO: give more insights)
-- Update xebia-database configmap(TODO: give more insights)
+### Exercises
+Update the backend-dev pipeline:
+- the Frontend application expect the backend API to be publicly accessible under the same domaine name, under the path '/xebicon-backend'.  
+- the backend application use an [environment variable](https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/) named **DB_URL** in order to connect to the database. This variable should be in the form of 'mongodb://DB_URL:27017'.  
 
 <details>
     <summary>xebicon-frontend solution</summary>
     <p>
-    Click "**Pipeline Actions**" (upper right), then click "Edit as JSON", and copy paste the following JSON.
+    Click "Pipeline Actions" (upper right), then click "Edit as JSON", and copy paste the following JSON.
 
 ```json
 {
-  "appConfig": {},
   "keepWaitingPipelines": false,
   "lastModifiedBy": "anonymous",
   "limitConcurrent": true,
   "parameterConfig": [
     {
-      "default": "v3",
+      "default": "v2",
       "description": "application version",
       "hasOptions": true,
       "label": "version",
@@ -75,9 +75,6 @@ This means the application **xebicon-backend** can connect to the **xebicon-data
         },
         {
           "value": "v2"
-        },
-        {
-          "value": "v7"
         }
       ],
       "pinned": false,
@@ -90,10 +87,61 @@ This means the application **xebicon-backend** can connect to the **xebicon-data
       "cloudProvider": "kubernetes",
       "manifests": [
         {
+          "apiVersion": "networking.k8s.io/v1beta1",
+          "kind": "Ingress",
+          "metadata": {
+            "annotations": {
+              "nginx.ingress.kubernetes.io/rewrite-target": "/$2"
+            },
+            "name": "xebicon-frontend-ingress"
+          },
+          "spec": {
+            "rules": [
+              {
+                "http": {
+                  "paths": [
+                    {
+                      "backend": {
+                        "serviceName": "xebicon-frontend",
+                        "servicePort": 80
+                      },
+                      "path": "/xebicon-frontend(/|$)(.*)"
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "moniker": {
+        "app": "xebicon-app"
+      },
+      "name": "Deploy Ingress",
+      "refId": "1",
+      "requisiteStageRefIds": [
+        "2"
+      ],
+      "skipExpressionEvaluation": false,
+      "source": "text",
+      "trafficManagement": {
+        "enabled": false,
+        "options": {
+          "enableTraffic": false,
+          "services": []
+        }
+      },
+      "type": "deployManifest"
+    },
+    {
+      "account": "kubernetes",
+      "cloudProvider": "kubernetes",
+      "manifests": [
+        {
           "apiVersion": "v1",
           "kind": "Service",
           "metadata": {
-            "name": "xebicon-frontend-service"
+            "name": "xebicon-frontend"
           },
           "spec": {
             "ports": [
@@ -111,14 +159,11 @@ This means the application **xebicon-backend** can connect to the **xebicon-data
         }
       ],
       "moniker": {
-        "app": "xebicon-frontend"
+        "app": "xebicon-app"
       },
       "name": "Deploy Service",
-      "namespaceOverride": "",
-      "refId": "1",
-      "requisiteStageRefIds": [
-        "3"
-      ],
+      "refId": "2",
+      "requisiteStageRefIds": [],
       "skipExpressionEvaluation": false,
       "source": "text",
       "trafficManagement": {
@@ -141,7 +186,7 @@ This means the application **xebicon-backend** can connect to the **xebicon-data
             "labels": {
               "app": "xebicon-frontend"
             },
-            "name": "xebicon-frontend-deployment"
+            "name": "xebicon-frontend"
           },
           "spec": {
             "replicas": 1,
@@ -178,12 +223,95 @@ This means the application **xebicon-backend** can connect to the **xebicon-data
         }
       ],
       "moniker": {
-        "app": "xebicon-frontend"
+        "app": "xebicon-app"
       },
-      "name": "Deploy (Manifest)",
-      "refId": "2",
+      "name": "Deploy Pods",
+      "refId": "3",
       "requisiteStageRefIds": [
         "1"
+      ],
+      "skipExpressionEvaluation": false,
+      "source": "text",
+      "trafficManagement": {
+        "enabled": false,
+        "options": {
+          "enableTraffic": false,
+          "services": []
+        }
+      },
+      "type": "deployManifest"
+    }
+  ],
+  "triggers": []
+}
+```
+
+<details>
+    <summary>xebicon-backend solution</summary>
+    <p>
+    Click "Pipeline Actions" (upper right), then click "Edit as JSON", and copy paste the following JSON.
+
+```json
+{
+  "keepWaitingPipelines": false,
+  "lastModifiedBy": "anonymous",
+  "limitConcurrent": true,
+  "parameterConfig": [
+    {
+      "default": "v1",
+      "description": "application version",
+      "hasOptions": true,
+      "label": "version",
+      "name": "version",
+      "options": [
+        {
+          "value": "v1"
+        }
+      ],
+      "pinned": false,
+      "required": true
+    }
+  ],
+  "stages": [
+    {
+      "account": "kubernetes",
+      "cloudProvider": "kubernetes",
+      "manifests": [
+        {
+          "apiVersion": "networking.k8s.io/v1beta1",
+          "kind": "Ingress",
+          "metadata": {
+            "annotations": {
+              "nginx.ingress.kubernetes.io/rewrite-target": "/$2"
+            },
+            "name": "xebicon-backend-ingress"
+          },
+          "spec": {
+            "rules": [
+              {
+                "http": {
+                  "paths": [
+                    {
+                      "backend": {
+                        "serviceName": "xebicon-backend",
+                        "servicePort": 80
+                      },
+                      "path": "/xebicon-backend(/|$)(.*)"
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "moniker": {
+        "app": "xebicon-app"
+      },
+      "name": "Deploy Ingress",
+      "refId": "1",
+      "requisiteStageRefIds": [
+        "2"
       ],
       "skipExpressionEvaluation": false,
       "source": "text",
@@ -201,96 +329,10 @@ This means the application **xebicon-backend** can connect to the **xebicon-data
       "cloudProvider": "kubernetes",
       "manifests": [
         {
-          "apiVersion": "networking.k8s.io/v1beta1",
-          "kind": "Ingress",
-          "metadata": {
-            "annotations": {
-              "nginx.ingress.kubernetes.io/rewrite-target": "/$2"
-            },
-            "name": "xebicon-frontend-ingress"
-          },
-          "spec": {
-            "rules": [
-              {
-                "http": {
-                  "paths": [
-                    {
-                      "backend": {
-                        "serviceName": "xebicon-frontend-service",
-                        "servicePort": 80
-                      },
-                      "path": "/xebicon-frontend(/|$)(.*)"
-                    }
-                  ]
-                }
-              }
-            ]
-          }
-        }
-      ],
-      "moniker": {
-        "app": "xebicon-test"
-      },
-      "name": "Deploy Ingress Rule",
-      "refId": "3",
-      "requisiteStageRefIds": [],
-      "skipExpressionEvaluation": false,
-      "source": "text",
-      "trafficManagement": {
-        "enabled": false,
-        "options": {
-          "enableTraffic": false,
-          "services": []
-        }
-      },
-      "type": "deployManifest"
-    }
-  ],
-  "triggers": [],
-  "updateTs": "1574288839000"
-}
-```
-
-<details>
-    <summary>xebicon-backend solution</summary>
-    <p>
-    Click "**Pipeline Actions**" (upper right), then click "Edit as JSON", and copy paste the following JSON.
-
-```json
-{
-  "appConfig": {},
-  "keepWaitingPipelines": false,
-  "lastModifiedBy": "anonymous",
-  "limitConcurrent": true,
-  "parameterConfig": [
-    {
-      "default": "v2",
-      "description": "application version",
-      "hasOptions": true,
-      "label": "version",
-      "name": "version",
-      "options": [
-        {
-          "value": "v1"
-        },
-        {
-          "value": "v2"
-        }
-      ],
-      "pinned": false,
-      "required": true
-    }
-  ],
-  "stages": [
-    {
-      "account": "kubernetes",
-      "cloudProvider": "kubernetes",
-      "manifests": [
-        {
           "apiVersion": "v1",
           "kind": "Service",
           "metadata": {
-            "name": "xebicon-backend-service"
+            "name": "xebicon-backend"
           },
           "spec": {
             "ports": [
@@ -308,14 +350,11 @@ This means the application **xebicon-backend** can connect to the **xebicon-data
         }
       ],
       "moniker": {
-        "app": "xebicon-frontend"
+        "app": "xebicon-app"
       },
       "name": "Deploy Service",
-      "namespaceOverride": "",
-      "refId": "1",
-      "requisiteStageRefIds": [
-        "3"
-      ],
+      "refId": "2",
+      "requisiteStageRefIds": [],
       "skipExpressionEvaluation": false,
       "source": "text",
       "trafficManagement": {
@@ -338,7 +377,7 @@ This means the application **xebicon-backend** can connect to the **xebicon-data
             "labels": {
               "app": "xebicon-backend"
             },
-            "name": "xebicon-backend-deployment"
+            "name": "xebicon-backend"
           },
           "spec": {
             "replicas": 1,
@@ -362,12 +401,8 @@ This means the application **xebicon-backend** can connect to the **xebicon-data
                   {
                     "env": [
                       {
-                        "name": "PORT",
-                        "value": "80"
-                      },
-                      {
                         "name": "DB_URL",
-                        "value": "mongodb://xebicon-database-service:27017"
+                        "value": "mongodb://xebicon-database:27017"
                       }
                     ],
                     "image": "jcalderan/xebicon-backend:${parameters.version}",
@@ -385,10 +420,10 @@ This means the application **xebicon-backend** can connect to the **xebicon-data
         }
       ],
       "moniker": {
-        "app": "xebicon-frontend"
+        "app": "xebicon-app"
       },
-      "name": "Deploy (Manifest)",
-      "refId": "2",
+      "name": "Deploy Pods",
+      "refId": "3",
       "requisiteStageRefIds": [
         "1"
       ],
@@ -402,70 +437,19 @@ This means the application **xebicon-backend** can connect to the **xebicon-data
         }
       },
       "type": "deployManifest"
-    },
-    {
-      "account": "kubernetes",
-      "cloudProvider": "kubernetes",
-      "manifests": [
-        {
-          "apiVersion": "networking.k8s.io/v1beta1",
-          "kind": "Ingress",
-          "metadata": {
-            "annotations": {
-              "nginx.ingress.kubernetes.io/rewrite-target": "/$2"
-            },
-            "name": "xebicon-backend-ingress"
-          },
-          "spec": {
-            "rules": [
-              {
-                "http": {
-                  "paths": [
-                    {
-                      "backend": {
-                        "serviceName": "xebicon-backend-service",
-                        "servicePort": 80
-                      },
-                      "path": "/xebicon-backend(/|$)(.*)"
-                    }
-                  ]
-                }
-              }
-            ]
-          }
-        }
-      ],
-      "moniker": {
-        "app": "xebicon-test"
-      },
-      "name": "Deploy Ingress",
-      "refId": "3",
-      "requisiteStageRefIds": [],
-      "skipExpressionEvaluation": false,
-      "source": "text",
-      "trafficManagement": {
-        "enabled": false,
-        "options": {
-          "enableTraffic": false,
-          "services": []
-        }
-      },
-      "type": "deployManifest"
     }
   ],
-  "triggers": [],
-  "updateTs": "1574290517000"
+  "triggers": []
 }
 ```
 
 <details>
     <summary>xebicon-database solution</summary>
     <p>
-    Click "**Pipeline Actions**" (upper right), then click "Edit as JSON", and copy paste the following JSON.
+    Click "Pipeline Actions" (upper right), then click "Edit as JSON", and copy paste the following JSON.
 
 ```json
 {
-  "appConfig": {},
   "keepWaitingPipelines": false,
   "lastModifiedBy": "anonymous",
   "limitConcurrent": true,
@@ -494,7 +478,7 @@ This means the application **xebicon-backend** can connect to the **xebicon-data
           "apiVersion": "v1",
           "kind": "Service",
           "metadata": {
-            "name": "xebicon-database-service"
+            "name": "xebicon-database"
           },
           "spec": {
             "ports": [
@@ -512,11 +496,10 @@ This means the application **xebicon-backend** can connect to the **xebicon-data
         }
       ],
       "moniker": {
-        "app": "xebicon-frontend"
+        "app": "xebicon-app"
       },
       "name": "Deploy Service",
-      "namespaceOverride": "",
-      "refId": "1",
+      "refId": "2",
       "requisiteStageRefIds": [],
       "skipExpressionEvaluation": false,
       "source": "text",
@@ -540,7 +523,7 @@ This means the application **xebicon-backend** can connect to the **xebicon-data
             "labels": {
               "app": "xebicon-database"
             },
-            "name": "xebicon-database-deployment"
+            "name": "xebicon-database"
           },
           "spec": {
             "replicas": 1,
@@ -577,12 +560,12 @@ This means the application **xebicon-backend** can connect to the **xebicon-data
         }
       ],
       "moniker": {
-        "app": "xebicon-frontend"
+        "app": "xebicon-app"
       },
-      "name": "Deploy (Manifest)",
-      "refId": "2",
+      "name": "Deploy Pods",
+      "refId": "3",
       "requisiteStageRefIds": [
-        "1"
+        "2"
       ],
       "skipExpressionEvaluation": false,
       "source": "text",
@@ -596,7 +579,6 @@ This means the application **xebicon-backend** can connect to the **xebicon-data
       "type": "deployManifest"
     }
   ],
-  "triggers": [],
-  "updateTs": "1574289097000"
+  "triggers": []
 }
 ```
