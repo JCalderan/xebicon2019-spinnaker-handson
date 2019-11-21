@@ -245,6 +245,8 @@ Update the backend-dev pipeline:
   "triggers": []
 }
 ```
+ </p>
+</details>
 
 <details>
     <summary>xebicon-backend solution</summary>
@@ -442,6 +444,8 @@ Update the backend-dev pipeline:
   "triggers": []
 }
 ```
+ </p>
+</details>
 
 <details>
     <summary>xebicon-database solution</summary>
@@ -582,3 +586,5 @@ Update the backend-dev pipeline:
   "triggers": []
 }
 ```
+ </p>
+</details>
