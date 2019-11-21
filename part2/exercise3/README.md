@@ -53,7 +53,7 @@ Update the backend-dev pipeline:
 - the backend application use an [environment variable](https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/) named **DB_URL** in order to connect to the database. This variable should be in the form of 'mongodb://DB_URL:27017'.  
 
 <details>
-    <summary>xebicon-frontend solution</summary>
+    <summary>frontend-dev solution</summary>
     <p>
     Click "Pipeline Actions" (upper right), then click "Edit as JSON", and copy paste the following JSON.
 
@@ -249,7 +249,7 @@ Update the backend-dev pipeline:
 </details>
 
 <details>
-    <summary>xebicon-backend solution</summary>
+    <summary>backend-dev solution</summary>
     <p>
     Click "Pipeline Actions" (upper right), then click "Edit as JSON", and copy paste the following JSON.
 
@@ -448,7 +448,7 @@ Update the backend-dev pipeline:
 </details>
 
 <details>
-    <summary>xebicon-database solution</summary>
+    <summary>database-dev solution</summary>
     <p>
     Click "Pipeline Actions" (upper right), then click "Edit as JSON", and copy paste the following JSON.
 
