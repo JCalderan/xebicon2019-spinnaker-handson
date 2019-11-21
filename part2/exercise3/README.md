@@ -30,6 +30,23 @@ Create a new pipeline "**xebicon-database**" in order to:
 This application is a single node MongoDB database which **listen on port 27017**.
 The database being unreachable from the outside of the cluster, we won't deploy an Ingress rule for this application.
 
+## Run everything
+At this point, you should have three pipelines. Run all of them:
+- frontend-dev: deploy version 2
+- backend-dev: deploy version 1
+- database-dev: deploy version 1
+
+All pipeline should be successfull.
+![xebistack pipeline](./xebi-stack-pipelines.png)
+
+Does that mean our application is working as expected ?
+Go back to the xebicon-frontend homepage (```http://yourdomain/xebicon-frontend```): the application now display a message 'loading...'.  
+This is because we deployed the backend Ingress rules, allowing the frontend application to access the backend API, however we didn't configure the link between the backend API and the database. This mean our backend API receives traffic while one of its critical dependency is unreachable.
+
+> A successfull deployment doesn't mean a working application. Be sure to implement automated ways to detect healthy components and identify components which are ready to receive traffic.
+
+Kubernetes allows us to define [probes](https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle/#container-probes) in order to monitor our application lifecycle.  
+
 ## Wiring up everything
 We need to connect all three components.  
 
@@ -51,6 +68,9 @@ This means any **xebicon-backend** pod can connect to the **xebicon-database** S
 Update the backend-dev pipeline:
 - the Frontend application expect the backend API to be publicly accessible under the same domaine name, under the path '/xebicon-backend'.  
 - the backend application use an [environment variable](https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/) named **DB_URL** in order to connect to the database. This variable should be in the form of 'mongodb://DB_URL:27017'.  
+
+When all pipeline has run, the infrastructure view should look like this.
+![xebistack cluster view](./xebi-stack-cluster.png)
 
 <details>
     <summary>frontend-dev solution</summary>
