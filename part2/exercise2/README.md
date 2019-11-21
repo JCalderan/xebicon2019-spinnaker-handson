@@ -51,6 +51,8 @@ If no artifacts match, we can choose to use backup strategies, otherwise the pip
 An artifact matched successfully against an expected artifact is said to be "**bound**" to this expected artifact.  
 This allows to reference expected artifacts in downstream stages, with the actual artifact being bound at runtime.
 
+> In an actual CI/CD setup using Spinnaker, you shouldn't be editing inplace manifest as we do in this hands-on, but rather pass manifest artifact to your pipeline from upstream pipeline or CI tool. We edit these manifests inplace here for demonstration purpose only. 
+
 ## Automated Triggers
 This section allows you to configure [automatic triggers](https://www.spinnaker.io/guides/user/pipeline/triggers/).  
 
@@ -99,10 +101,10 @@ Modify the pipeline in order be able to specify the version at runtime:
 
 > Services route traffic to pods whose labels match the Service selectors
 
-<details>
-    <summary>Solution</summary>
-    <p>
-    Click "**Pipeline Actions**" (upper right), then click "Edit as JSON", and copy paste the following JSON.
+<details> . 
+  <summary>Solution</summary> . 
+  <p> . 
+    Click "**Pipeline Actions**" (upper right), then click "Edit as JSON", and copy paste the following JSON.  
 
 ```json
 {
@@ -245,3 +247,5 @@ Modify the pipeline in order be able to specify the version at runtime:
   "updateTs": "1574203205000"
 }
 ```
+  </p>
+</details
