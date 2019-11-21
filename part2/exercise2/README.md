@@ -101,10 +101,10 @@ Modify the pipeline in order be able to specify the version at runtime:
 
 > Services route traffic to pods whose labels match the Service selectors
 
-<details> . 
-  <summary>Solution</summary> . 
-  <p> . 
-    Click "**Pipeline Actions**" (upper right), then click "Edit as JSON", and copy paste the following JSON.  
+<details>  
+  <summary>Solution</summary>  
+  <p>  
+    Click "Pipeline Actions" (upper right), then click "Edit as JSON", and copy paste the following JSON.  
 
 ```json
 {
@@ -249,3 +249,5 @@ Modify the pipeline in order be able to specify the version at runtime:
 ```
   </p>
 </details
+
+[previous](../exercise1/README.md) | [next](../exercise3/README.md)
