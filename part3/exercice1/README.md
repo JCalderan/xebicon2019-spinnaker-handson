@@ -1,7 +1,7 @@
 # Blue/Green deployment
 ## Exercice 1:
 
-To use Spinnaker Red/Black deployment, we are going to use ReplicaSet instead of deployment.
+Spinnaker Red/Black deployment is implemented with Kubernetes ReplicaSet, and won't work as expected with Kubernetes Deployment.
 
 You can start the application from this pipeline templates:
 
@@ -137,10 +137,9 @@ Create a new pipeline called Xebicon-deployment from this template:
 </p>
 </details>
 
+Update the application version using Red/Black deployment.
 
-Let update our app the new version using B/G deployment.
-
-You can change your application version to V2. We suppose that this version is production ready.
+You can change your application version to "v2". We suppose that this version is production ready.
 to do this, please follow the instruction bellow:
 1. Check the Box "Spinnaker manages traffic based on your selected strategy" in the  Rollout Strategy Options section 
 ![Switch Back to the blue version](./images/enablebg.png)
