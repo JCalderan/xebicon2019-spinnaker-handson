@@ -133,11 +133,11 @@ Our pipeline ensure new pods won't be deployed if an error occurs during the Ing
 
 In a production environment, you might want to have your Service/Ingress deployment decoupled from application's Pods deployment, as the laters are more ephemerial than the firsts.
 
-<details>
-    <summary>Solution</summary>
-    <p>
-    Click "**Pipeline Actions**" (upper right), then click "Edit as JSON", and copy paste the following JSON.
-
+<details>  
+  <summary>Solution</summary>  
+  <p>  
+    Click "**Pipeline Actions**" (upper right), then click "Edit as JSON", and copy paste the following JSON.  
+      
 ```json
 {
   "keepWaitingPipelines": false,
@@ -303,8 +303,8 @@ In a production environment, you might want to have your Service/Ingress deploym
   ],
   "triggers": []
 }
-```
-    </p>
+```  
+  </p>
 </details>
 
 [previous](../../part1/exercise1/README.md) | [next](../exercise2/README.md)
