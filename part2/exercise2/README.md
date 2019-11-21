@@ -95,9 +95,12 @@ Go to the configuration page of the pipeline created in the [previous exercise](
 
 We hardcoded the version of "xebicon-frontend" to the value "v1" (see the Service and ReplicaSet manifest).  
 Modify the pipeline in order be able to specify the version at runtime:
-- add a parameter "version"
-- update the Service manifest
+- add a parameter "version": required; default value: 'v2'; options: ['v1', 'v2']; 
+- update the Service manifest 
 - update the ReplicaSet manifest
+- start the pipeline using parameter 'v2'
+
+Head to the Infrastructure view: a new replicaSet has been deployed, and the 'LoadBalancer' (our Service) switched from the previous replicaSet to the new one !
 
 > Services route traffic to pods whose labels match the Service selectors
 
@@ -136,34 +139,82 @@ Modify the pipeline in order be able to specify the version at runtime:
       "cloudProvider": "kubernetes",
       "manifests": [
         {
+          "apiVersion": "networking.k8s.io/v1beta1",
+          "kind": "Ingress",
+          "metadata": {
+            "annotations": {
+              "nginx.ingress.kubernetes.io/rewrite-target": "/$2"
+            },
+            "name": "xebicon-frontend-ingress"
+          },
+          "spec": {
+            "rules": [
+              {
+                "http": {
+                  "paths": [
+                    {
+                      "backend": {
+                        "serviceName": "xebicon-frontend",
+                        "servicePort": 80
+                      },
+                      "path": "/xebicon-frontend(/|$)(.*)"
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "moniker": {
+        "app": "xebicon-app"
+      },
+      "name": "Deploy Ingress",
+      "refId": "1",
+      "requisiteStageRefIds": [
+        "2"
+      ],
+      "skipExpressionEvaluation": false,
+      "source": "text",
+      "trafficManagement": {
+        "enabled": false,
+        "options": {
+          "enableTraffic": false,
+          "services": []
+        }
+      },
+      "type": "deployManifest"
+    },
+    {
+      "account": "kubernetes",
+      "cloudProvider": "kubernetes",
+      "manifests": [
+        {
           "apiVersion": "v1",
           "kind": "Service",
           "metadata": {
-            "name": "xebicon-frontend-service"
+            "name": "xebicon-frontend"
           },
           "spec": {
             "ports": [
               {
-                "port": 9080,
-                "protocol": "TCP",
-                "targetPort": 80
+                "port": 80,
+                "protocol": "TCP"
               }
             ],
             "selector": {
               "app": "xebicon-frontend",
               "environment": "dev",
               "version": "${parameters.version}"
-            },
-            "type": "LoadBalancer"
+            }
           }
         }
       ],
       "moniker": {
-        "app": "xebicon-frontend"
+        "app": "xebicon-app"
       },
       "name": "Deploy Service",
-      "namespaceOverride": "",
-      "refId": "1",
+      "refId": "2",
       "requisiteStageRefIds": [],
       "skipExpressionEvaluation": false,
       "source": "text",
@@ -187,7 +238,7 @@ Modify the pipeline in order be able to specify the version at runtime:
             "labels": {
               "app": "xebicon-frontend"
             },
-            "name": "xebicon-frontend-deployment"
+            "name": "xebicon-frontend"
           },
           "spec": {
             "replicas": 1,
@@ -224,10 +275,10 @@ Modify the pipeline in order be able to specify the version at runtime:
         }
       ],
       "moniker": {
-        "app": "xebicon-frontend"
+        "app": "xebicon-app"
       },
-      "name": "Deploy (Manifest)",
-      "refId": "2",
+      "name": "Deploy Pods",
+      "refId": "3",
       "requisiteStageRefIds": [
         "1"
       ],
@@ -243,8 +294,7 @@ Modify the pipeline in order be able to specify the version at runtime:
       "type": "deployManifest"
     }
   ],
-  "triggers": [],
-  "updateTs": "1574203205000"
+  "triggers": []
 }
 ```
   </p>
