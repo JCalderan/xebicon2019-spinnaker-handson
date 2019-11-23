@@ -1,4 +1,4 @@
-# Application configuration
+# Application configuration [TODO: RENAME]
 In the [previous exercise](../exercise2/README.md) we learnt to parametrize our pipeline, 
 and we added a new parameter "version".
 
@@ -47,7 +47,9 @@ This is because we deployed the backend Ingress rules, allowing the frontend app
 
 Kubernetes allows us to define [probes](https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle/#container-probes) in order to monitor our application lifecycle.  
 
-## Wiring up everything
+## Probes [TODO]
+
+## Wiring up everything [TODO: rewrite for backend-database only - front/backend are already linked]
 We need to connect all three components.  
 
 In order to access both applications from the Internet, we will use a domain name which resolve to our kubernetes cluster:
@@ -66,8 +68,7 @@ This means any **xebicon-backend** pod can connect to the **xebicon-database** S
 
 ### Exercises
 Update the backend-dev pipeline:
-- the Frontend application expect the backend API to be publicly accessible under the same domaine name, under the path '/xebicon-backend'.  
-- the backend application use an [environment variable](https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/) named **DB_URL** in order to connect to the database. This variable should be in the form of 'mongodb://DB_URL:27017'.  
+- the backend application use an [environment variable](https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/) named **DB_URL** in order to connect to the database. This variable should be in the form of 'mongodb://database-service-name:27017'.  
 
 When all pipeline has run, the infrastructure view should look like this.
 ![xebistack cluster view](./xebi-stack-cluster.png)
