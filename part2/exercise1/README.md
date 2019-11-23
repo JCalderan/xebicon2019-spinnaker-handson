@@ -7,7 +7,7 @@ First create a new application named "**xebicon-app**".
 
 Then head to the "**Pipeline**" tab: 
 - click "**configure a new pipeline**"
-- enter the pipeline name "**Development**"
+- enter the pipeline name "**frontend-dev**"
 - click the "**Create**" button
 
 You created an empty pipeline named "**frontend-dev**".
