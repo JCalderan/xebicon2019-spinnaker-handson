@@ -2,7 +2,7 @@
 ## Introduction
 
 
-The Blue/Green deployment called Red/Black in Spinnaker is a technique of releasing application new version by switching traffic between two identical environments.
+Blue/Green deployment, also called Red/Black in Spinnaker, is a deployment pattern based on switching traffic between two environments running different versions of an application.
 
 This technique allows to avoid common pitfall associated with deploying a software, such as downtime and the lack of rollback capability.
 
