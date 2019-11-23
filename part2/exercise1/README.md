@@ -136,7 +136,7 @@ In a production environment, you might want to have your Service/Ingress deploym
 <details>  
   <summary>Solution</summary>  
   <p>  
-    Click "**Pipeline Actions**" (upper right), then click "Edit as JSON", and copy paste the following JSON.  
+    Click "Pipeline Actions" (upper right), then click "Edit as JSON", and copy paste the following JSON.  
       
 ```json
 {
