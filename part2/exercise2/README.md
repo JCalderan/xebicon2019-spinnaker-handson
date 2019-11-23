@@ -95,12 +95,13 @@ Go to the configuration page of the pipeline created in the [previous exercise](
 
 We hardcoded the version of "xebicon-frontend" to the value "v1" (see the Service and ReplicaSet manifest).  
 Modify the pipeline in order be able to specify the version at runtime:
-- add a parameter "version": required; default value: 'v2'; options: ['v1', 'v2']; 
+- add a parameter "version": it is **required**, it has a **default value** 'v2', and the possible options are 'v1' and v2' 
 - update the Service manifest 
 - update the ReplicaSet manifest
 - start the pipeline using parameter 'v2'
 
-Head to the Infrastructure view: a new replicaSet has been deployed, and the 'LoadBalancer' (our Service) switched from the previous replicaSet to the new one !
+Head to the Infrastructure view: a new replicaSet has been deployed, and the 'LoadBalancer' (our Service) switched from the previous replicaSet to the new one !  
+You can also refresh ```http://yourdomain/xebicon-frontend``` in order to see the new version deployed (it display an error message because this version of the application need a backend application to get its data).
 
 > Services route traffic to pods whose labels match the Service selectors
 
