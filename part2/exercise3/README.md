@@ -2,7 +2,7 @@
 In the [previous exercise](../exercise2/README.md) we learnt to parametrize our pipeline, 
 and we added a new parameter "version".
 
-This version v2 of xebicon-frontend use a Back-End application in order to fetch the Xebicon slots to display.  
+This version v2 of xebicon-frontend uses a Back-End application in order to fetch the Xebicon slots to display.  
 In order to get it working, we'll need to deploy two new applications:
 - xebicon-backend: the API consumed by xebicon-frontend
 - xebicon-database: the database hosting the Xebicon slots data 
@@ -12,7 +12,7 @@ while the database must only be accessible from the inside of the Cluster.
 The following diagram illustrate this setup.
 ![Target deployment diagram](./xebia-stack.svg)
 
-## Seting up the backend application
+## Setting up the backend application
 Create a new pipeline "**backend-dev**" in order to:
 - deploy a new Service named "xebicon-backend"
 - deploy a new Ingress named "xebicon-backend"
