@@ -13,22 +13,34 @@ The following diagram illustrate this setup.
 ![Target deployment diagram](./xebia-stack.svg)
 
 ## Setting up the backend application
-Create a new pipeline "**backend-dev**" in order to:
-- deploy a new Service named "xebicon-backend"
-- deploy a new Ingress named "xebicon-backend"
-- deploy a Kubernetes ReplicaSet (use the docker image ```jcalderan/xebicon-backend:v1```)
-
-This application is a simple Node.js application which **listen on port 8080**, and exposes **two endpoints**:
+This application is a simple Node.js application which **listen on port 80**, and exposes **two endpoints**:
 - /: fetch all slots stored in database
-- /health: return ```200 OK {"status": "up"}``` when the application is up and running 
+- /health: return ```200 OK {"status": "up"}``` when the application is up and running
+
+Create a new pipeline "**backend-dev**":
+- deploy a new Service named "xebicon-backend", listening on port 80
+- deploy a new Ingress named "xebicon-backend", exposing a backend path "/xebicon-backend"
+- deploy a Kubernetes ReplicaSet (use the docker image ```jcalderan/xebicon-backend```)
+- the application is only available in verson 'v1' modify the parameter 'version' and remove the option 'v2'
+
+### Take aways
+- we created a new pipeline for the backend application xebicon-application
+- the application is accessible from the internet at ```http://yourdomain/xebicon-backend``` thanks to its **Ingress Rule**
+- the application is still unable to connect to the database
 
 ## Setting up the database
-Create a new pipeline "**xebicon-database**" in order to:
-- deploy a new Service named "xebicon-database"
-- deploy a Kubernetes replicaSet (use the docker image ```jcalderan/xebicon-database:v1```)
-
 This application is a single node MongoDB database which **listen on port 27017**.
-The database being unreachable from the outside of the cluster, we won't deploy an Ingress rule for this application.
+The database being **unreachable from the outside of the cluster**, we won't deploy an Ingress rule for this application.
+
+Create a new pipeline "**database-dev**":
+- deploy a new Service named "xebicon-database", listening on port 27017
+- deploy a Kubernetes replicaSet (use the docker image ```jcalderan/xebicon-database```)
+- the application is only available in verson 'v1' modify the parameter 'version' and remove the option 'v2'
+
+### Take aways
+- we created a new pipeline for the database application xebicon-database
+- the application is not accessible from the internet !
+- the database await connection on port 27017
 
 ## Run everything
 At this point, you should have three pipelines. Run all of them:
