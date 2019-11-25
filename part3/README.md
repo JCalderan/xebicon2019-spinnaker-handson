@@ -37,5 +37,7 @@ Since the previous version of the application is still up and running , yet not 
   <img src="images/B_G-KO.svg"/>
 </p>
 
+In the end of part 3, we will create a Blue/Green deployment strategy 
+
 [previous](../part2/exercise2/README.md) | [next](./exercice1/README.md)
 

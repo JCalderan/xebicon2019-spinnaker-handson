@@ -1,33 +1,55 @@
 # Blue/Green deployment
 ## Exercice 2:
 
-Now You become familiar with Spinnaker, you can create the rollback pipeline.
-Let's create the pipeline bellow:
+* Create a new pipeline named Rollback
+
+* Add new Stage
+
+* Choose stage type `enable manifest`.
+
+* You can name the stage : `Enable previous version`
+
+* In the `Enable (Manifest) Configuration`:
+
+* Select the namespace where did you deployed you application
+
+* Select ReplicaSet as Kind
+
+* Choose a `Choose a target dynamically`
+
+* Select your replicaSet in the Cluster section
+
+* Choose Second Newest as Target 
 
 ![Switch Back to the blue version](./images/rollback.png)
 
-* Create new Stage: this stage enable the v1 application version
-* This Stage should depends on the pipeline input
-* Choose enable manifest and select the second newest version
-* Create another stage: this stage will disable the v2 application version 
-* This Stage should depends on the pipeline input
-* Choose enable Manifest and select the newest version
+* Add new Stage
+
+* Choose stage type `disable manifest`.
+
+* You can name the stage : `disable newest version`
+
+* In the `Disable (Manifest) Configuration`:
+
+* Select the namespace where did you deployed you application
+
+* Select ReplicaSet as Kind
+
+* Choose a `Choose a target dynamically`
+
+* Select your replicaSet in the Cluster section
+
+* Choose Newest as Target 
+
+![Switch Back to the blue version](./images/rollback.png)
+
+* Save the pipeline
+
 * Run the pipeline
-* You can check the infrastructure to check that the rollback is successful
 
-How can you improve this pipeline to prevent downtime?
+* In the infrastructure section, you can see that the v2 is disabled and v1 is enabled
 
-
-<details><summary>Solution</summary>
-<p>
-
-
-![Solution](./images/solution.png)
-
-
-</p>
-</details>
-
+![Switch Back to the blue version](./images/enable-v1-disable-v2.png)
 
 [previous](../exercice1/README.md) | [next](../exercice3/README.md)
 

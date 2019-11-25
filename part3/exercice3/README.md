@@ -1,52 +1,48 @@
 # Blue/Green deployment
-## Exercice 2:
+## Exercice 3:
 
-In the  previous Exercice we checked the application manually. We can use two kubernetes feature to check that our application is healthy.
-The Livenness and readiness probe check that our application is healthy and ready to serve content.
+To improve our deployment process, we can use two kubernetes feature to check that our application is healthy and ready to serve traffic.
+
+The Livenness and Readiness probe check that our application is healthy and ready to serve content.
+
 The main difference between this feature is: 
+
 * Liveness: indicates when a pod is "alive"
+
 * readiness: indicate when a pod is ready to serve request 
 
 Further information are available in the [kubernetes documentation](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/)
 
+In this exerice we are going to use this two features to improve the Blue/Green deployement
+
 For this exercice:
 
-* The liveness probe is available via http on port 8081 and path /heathz. 
+* The liveness probe is available via http GET on port 8080 and path /heathz. 
 
-* The readinees probe is available via http on port 8081 /ready.
+* The readinees probe is available via http on port 8080 and path / .
 
-<details><summary>Task One:</summary>
-<p>
+### Task 1: Add LivenessProbe
 
-In this task, we are going to discover the Liveness impact on our deployment and pipeline:
+In this task, we are going to discover the impact of Liveness of on our deployment and pipeline:
 
 * You can add Liveness probe to the deployment pipeline in the spec section. 
-The application version with broken tag response 500 on path /heathz
 
-* Deploy this application version
+* Deploy the version v3.1 of the application
 
 * What do you observe in the infrastructure section ?
 
-</p>
-</details>
-
-<details><summary>Task Two:</summary>
+<details><summary>Solution</summary>
 <p>
-
 The previous pipeline fails because our container is not ready to start 
-
-So deploy a new application version with /heathz that response 200 
-
-* You can deploy application version V3
-
-* What do you observe in the infrastructure section ?
-
+Screen shot here 
 </p>
 </details>
 
+* You can deploy application version v3.2
 
-<details><summary>Task Three:</summary>
-<p>
+* What do you observe in the infrastructure section ?
+
+### Task 2: Add ReadinessProbe
 
 The liveness probe is a flag to indicate that our container is UP, but it can't verify that our application can serve traffic
 
@@ -54,27 +50,19 @@ The Readiness probe can be used to check that the application critical component
 
 * Add Readiness probe to the deployment pipeline in the spec section. 
 
-* Deploy The application version with brokenReadiness
+* Deploy The application version v3.3
 
 * What do you observe in the infrastructure section? 
 
-</p>
-</details>
-
-
-<details><summary>Task Four:</summary>
+<details><summary>Solution</summary>
 <p>
-
-
-The previous pipeline fails because our container is not ready to serve request 
-
-A new application version is available with /ready that response 200 
-
-* You can deploy application version V4
-
-* What do you observe in the infrastructure section ?
-
+The previous pipeline fails because / response 503
+Screen shot here 
 </p>
 </details>
+
+A new application version is available with / that response 200 
+
+* You can deploy application version v3.4
 
 [previous](../exercice2/README.md)
