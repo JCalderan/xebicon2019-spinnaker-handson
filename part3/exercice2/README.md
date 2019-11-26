@@ -21,7 +21,7 @@
 
 * Choose Second Newest as Target 
 
-![Switch Back to the blue version](./images/rollback.png)
+![Switch Back to the blue version](./images/enable-manifest.png)
 
 * Add new Stage
 
@@ -41,7 +41,7 @@
 
 * Choose Newest as Target 
 
-![Switch Back to the blue version](./images/rollback.png)
+![Switch Back to the blue version](./images/disable-manifest.png)
 
 * Save the pipeline
 
@@ -49,7 +49,7 @@
 
 * In the infrastructure section, you can see that the v2 is disabled and v1 is enabled
 
-![Switch Back to the blue version](./images/enable-v1-disable-v2.png)
+![Switch Back to the blue version](./images/lunch-rb.png)
 
 [previous](../exercice1/README.md) | [next](../exercice3/README.md)
 

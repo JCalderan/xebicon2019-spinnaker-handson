@@ -19,8 +19,7 @@ Spinnaker deployment Red/Black is implemented with Kubernetes ReplicaSet.
 apiVersion: v1
 kind: Service
 metadata:
-  name: xebincon-app
-  namespace: dev
+  name: xebicon-app
 spec:
   ports:
     - port: 80
@@ -30,6 +29,7 @@ spec:
     app: xebincon-app
   type: ClusterIP
 
+
 ```
 
 </p>
@@ -37,15 +37,8 @@ spec:
 
 * Save the pipeline
 
-Your service pipeline should like the picture bellow.
-
-![Deploy service](./images/deploy-service.png)
-
 * Run the pipeline
 
-When pipeline finish, you should see your service in the infrastructure section
-
-![Deploy service](./images/deploy-service-pipeline.png)
 
 ### Deploy ReplicaSet
 
@@ -53,7 +46,7 @@ When pipeline finish, you should see your service in the infrastructure section
 
 * Add new stage to the pipeline.
 
-* In the new stage, choose `deploy manifest` and use the yaml template bellow 
+* In the new stage, choose `deploy manifest` and use the yaml the template bellow 
 
 <details><summary>Replicaset template</summary>
 <p>
@@ -64,18 +57,17 @@ apiVersion: apps/v1beta2
 kind: ReplicaSet
 metadata:
   labels:
-    applicationName: xebincon-app
+    applicationName: xebicon-app
   name: xebincon-app
-  namespace: dev
 spec:
   replicas: 3
   selector:
     matchLabels:
-      applicationName: xebincon-app
+      applicationName: xebicon-app
   template:
     metadata:
       labels:
-        applicationName: xebincon-app
+        applicationName: xebicon-app
     spec:
       containers:
         - image: 'chakch007/node-web-app:${parameters["version"]}'
@@ -89,19 +81,11 @@ spec:
 
 * In the Configuration stage, Add a new parameter named `Version` 
 
-![Deploy service](./images/add-version.png)
-
-Your service pipeline should be like the picture bellow.
-
-![Deploy service](./images/deploy-replicaset.png)
-
 * Save the pipeline
 
 * Run the pipeline with application v1
 
 * You can check that you application is deployed in the infrastructure section
-
-![Deploy service](./images/deploy-replicaset.png)
 
 ### Deploy new application version using Red/Black
 
@@ -121,14 +105,13 @@ We are going to update our application version to v2
 
 * Select Strategy: Red/Black
 
-![Deploy service](./images/enable-red-black.png)
+![Deploy service](./images/enable-rb.png)
 
 * Save the pipeline
 
 * Run the pipeline with v2 version as parameter
 
 * In the infrastructure, you should see a new replicaSet deployed and the previous one disabled
-
 
 Great! now that we have implemented the Red/Black deployment, we need to implement the rollback pipeline
 

@@ -21,6 +21,10 @@ For this exercice:
 
 * The readinees probe is available via http on port 8080 and path / .
 
+* The default stage timeout is 30 minutes. You should modify the stage timeout to get the feedback quickly
+
+![Switch Back to the blue version](./images/timeout.png)
+
 ### Task 1: Add LivenessProbe
 
 In this task, we are going to discover the impact of Liveness of on our deployment and pipeline:
@@ -34,13 +38,17 @@ In this task, we are going to discover the impact of Liveness of on our deployme
 <details><summary>Solution</summary>
 <p>
 The previous pipeline fails because our container is not ready to start 
-Screen shot here 
+
+![Switch Back to the blue version](./images/live-01.png)
+
 </p>
 </details>
 
-* You can deploy application version v3.2
+* You can deploy application version v3.2 and you should see this result 
 
-* What do you observe in the infrastructure section ?
+
+![Switch Back to the blue version](./images/live-02.png)
+
 
 ### Task 2: Add ReadinessProbe
 
@@ -56,13 +64,18 @@ The Readiness probe can be used to check that the application critical component
 
 <details><summary>Solution</summary>
 <p>
-The previous pipeline fails because / response 503
-Screen shot here 
+The previous pipeline fails because / response 500
+
+![Switch Back to the blue version](./images/read-01.png)
+
 </p>
 </details>
 
 A new application version is available with / that response 200 
 
 * You can deploy application version v3.4
+
+![Switch Back to the blue version](./images/read-02.png)
+
 
 [previous](../exercice2/README.md)
