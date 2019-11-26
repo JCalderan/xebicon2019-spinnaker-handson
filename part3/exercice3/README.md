@@ -47,11 +47,14 @@ In this task, we are going to discover the impact of Liveness of on our deployme
 
 * What do you observe in the infrastructure section ?
 
+
 <details><summary>Solution</summary>
 <p>
-The previous pipeline fails because our container is not ready to start 
 
 ![Switch Back to the blue version](./images/live-01.png)
+
+
+The previous pipeline fails because our container is not ready to start 
 
 </p>
 </details>
@@ -64,7 +67,7 @@ The previous pipeline fails because our container is not ready to start
 
 ### Task 2: Add ReadinessProbe
 
-The liveness probe is a flag to indicate that our container is UP, but it can't verify that our application can serve traffic
+The liveness probe is a flag to indicate that our container is running, but it can't verify that our application can serve traffic
 
 The Readiness probe can be used to check that the application critical component are ready to serve request
 
@@ -86,16 +89,18 @@ The Readiness probe can be used to check that the application critical component
 
 * What do you observe in the infrastructure section? 
 
+
 <details><summary>Solution</summary>
 <p>
-The previous pipeline fails because / response 500
 
 ![Switch Back to the blue version](./images/read-01.png)
+
+
+The previous pipeline fails because / response 500
 
 </p>
 </details>
 
-A new application version is available with / that response 200 
 
 * You can deploy application version v3.4
 
