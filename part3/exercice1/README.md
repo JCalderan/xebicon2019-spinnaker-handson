@@ -79,11 +79,11 @@ spec:
 </p>
 </details>
 
-* In the Configuration stage, Add a new parameter named `Version` 
+* In the Configuration stage, Add a new parameter named `version` 
 
 * Save the pipeline
 
-* Run the pipeline with application v1
+* Run the pipeline with application and set version to v1
 
 * You can check that you application is deployed in the infrastructure section
 
@@ -103,7 +103,7 @@ We are going to update our application version to v2
 
 * Select the service created in the beginning of the exercice
 
-* Select Strategy: Red/Black
+* Select strategy: Red/Black
 
 ![Deploy service](./images/enable-rb.png)
 

@@ -29,17 +29,17 @@
 
 * You can name the stage : `disable newest version`
 
-* In the `Disable (Manifest) Configuration`:
+- In the `Disable (Manifest) Configuration`:
 
-* Select the namespace where did you deployed you application
+    - Select the namespace where did you deployed you application
 
-* Select ReplicaSet as Kind
+    - Select ReplicaSet as Kind
 
-* Choose a `Choose a target dynamically`
+    - Choose a `Choose a target dynamically`
 
-* Select your replicaSet in the Cluster section
-
-* Choose Newest as Target 
+    - Select your replicaSet in the Cluster section
+    
+    - Choose Newest as Target 
 
 ![Switch Back to the blue version](./images/disable-manifest.png)
 
