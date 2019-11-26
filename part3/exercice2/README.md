@@ -9,17 +9,17 @@
 
 * You can name the stage : `Enable previous version`
 
-* In the `Enable (Manifest) Configuration`:
+- In the `Enable (Manifest) Configuration`:
 
-* Select the namespace where did you deployed you application
+    - Select the namespace where did you deployed you application
 
-* Select ReplicaSet as Kind
+    - Select ReplicaSet as Kind
 
-* Choose a `Choose a target dynamically`
+    - Choose a `Choose a target dynamically`
 
-* Select your replicaSet in the Cluster section
+    - Select your replicaSet in the Cluster section
 
-* Choose Second Newest as Target 
+    - Choose Second Newest as Target 
 
 ![Switch Back to the blue version](./images/enable-manifest.png)
 
