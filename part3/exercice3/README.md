@@ -31,6 +31,18 @@ In this task, we are going to discover the impact of Liveness of on our deployme
 
 * You can add Liveness probe to the deployment pipeline in the spec section. 
 
+```
+
+  livenessProbe:
+    failureThreshold: 1
+    httpGet:
+      path: /healthz
+      port: 8080
+    initialDelaySeconds: 1
+    periodSeconds: 1
+
+```
+
 * Deploy the version v3.1 of the application
 
 * What do you observe in the infrastructure section ?
@@ -57,6 +69,18 @@ The liveness probe is a flag to indicate that our container is UP, but it can't 
 The Readiness probe can be used to check that the application critical component are ready to serve request
 
 * Add Readiness probe to the deployment pipeline in the spec section. 
+
+```
+
+  readinessProbe:
+    failureThreshold: 1
+    httpGet:
+      path: /
+      port: 8080
+    initialDelaySeconds: 1
+    periodSeconds: 1
+
+```
 
 * Deploy The application version v3.3
 
