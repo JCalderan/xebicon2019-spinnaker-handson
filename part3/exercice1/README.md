@@ -11,9 +11,6 @@ Spinnaker deployment Red/Black is implemented with Kubernetes ReplicaSet.
 
 * In the new stage, choose `Deploy manifest` and paste the yaml template bellow 
 
-<details><summary>Service pipeline</summary>
-<p>
-
 ```
 
 apiVersion: v1
@@ -29,11 +26,7 @@ spec:
     app: xebincon-app
   type: ClusterIP
 
-
 ```
-
-</p>
-</details>
 
 * Save the pipeline
 
@@ -48,8 +41,6 @@ spec:
 
 * In the new stage, choose `deploy manifest` and use the yaml the template bellow 
 
-<details><summary>Replicaset template</summary>
-<p>
 
 ```
 
@@ -74,10 +65,8 @@ spec:
           name: primary
           ports:
             - containerPort: 8080
-```
 
-</p>
-</details>
+```
 
 * In the Configuration stage, Add a new parameter named `version` 
 
