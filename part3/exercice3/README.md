@@ -13,15 +13,17 @@ The main difference between this feature is:
 
 Further information are available in the [kubernetes documentation](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/)
 
-In this exerice we are going to use this two features to improve the Blue/Green deployement
+In this exercise we are going to use this two features to improve the Blue/Green deployement
 
-For this exercice:
+For this exercise:
 
 * The liveness probe is available via http GET on port 8080 and path /heathz. 
 
 * The readinees probe is available via http on port 8080 and path / .
 
-* The default stage timeout is 30 minutes. You should modify the stage timeout to get the feedback quickly
+* the docker images are available on this repo: chakch007/xebicon-app:tagname
+
+* The default stage timeout is 30 minutes. You should modify the stage timeout to get feedback quickly
 
 ![Switch Back to the blue version](./images/timeout.png)
 
