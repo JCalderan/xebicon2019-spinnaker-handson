@@ -58,7 +58,7 @@ Finally, as the new Server Group stabilizes, the old one is removed.
 ```json
 ```
   </p>
-</details
+</details>  
 
 ## Built-in deployment strategies
 Spinnaker provides a set of built-in deployment strategies, such as Highlander, Red/Black or Canary.
