@@ -241,6 +241,12 @@ When all pipeline has run, the infrastructure view should look like this.
               "spec": {
                 "containers": [
                   {
+                    "env": [
+                      {
+                        "name": "DB_URL",
+                        "value": "mongodb://xebicon-database:27017"
+                      }
+                    ],
                     "image": "jcalderan/xebicon-backend:${parameters.version}",
                     "name": "xebicon-backend",
                     "ports": [
