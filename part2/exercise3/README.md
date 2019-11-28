@@ -287,6 +287,139 @@ When all pipeline has run, the infrastructure view should look like this.
     Click "Pipeline Actions" (upper right), then click "Edit as JSON", and copy paste the following JSON.
 
 ```json
+{
+  "keepWaitingPipelines": false,
+  "limitConcurrent": true,
+  "parameterConfig": [
+    {
+      "default": "v1",
+      "description": "application version",
+      "hasOptions": true,
+      "label": "version",
+      "name": "version",
+      "options": [
+        {
+          "value": "v1"
+        }
+      ],
+      "pinned": false,
+      "required": true
+    }
+  ],
+  "stages": [
+    {
+      "account": "kubernetes",
+      "cloudProvider": "kubernetes",
+      "manifests": [
+        {
+          "apiVersion": "v1",
+          "kind": "Service",
+          "metadata": {
+            "name": "xebicon-database"
+          },
+          "spec": {
+            "ports": [
+              {
+                "port": 27017,
+                "protocol": "TCP"
+              }
+            ],
+            "selector": {
+              "app": "xebicon-database",
+              "environment": "dev",
+              "version": "${parameter.version}"
+            }
+          }
+        }
+      ],
+      "moniker": {
+        "app": "xebicon-app"
+      },
+      "name": "Deploy Service",
+      "refId": "1",
+      "requisiteStageRefIds": [],
+      "skipExpressionEvaluation": false,
+      "source": "text",
+      "trafficManagement": {
+        "enabled": false,
+        "options": {
+          "enableTraffic": false,
+          "services": []
+        }
+      },
+      "type": "deployManifest"
+    },
+    {
+      "account": "kubernetes",
+      "cloudProvider": "kubernetes",
+      "manifests": [
+        {
+          "apiVersion": "apps/v1",
+          "kind": "ReplicaSet",
+          "metadata": {
+            "labels": {
+              "app": "xebicon-database",
+              "environment": "dev",
+              "version": "${parameters.version}"
+            },
+            "name": "xebicon-database"
+          },
+          "spec": {
+            "replicas": 1,
+            "selector": {
+              "matchLabels": {
+                "app": "xebicon-database",
+                "environment": "dev",
+                "version": "${parameters.version}"
+              }
+            },
+            "template": {
+              "metadata": {
+                "labels": {
+                  "app": "xebicon-database",
+                  "environment": "dev",
+                  "version": "${parameters.version}"
+                }
+              },
+              "spec": {
+                "containers": [
+                  {
+                    "image": "jcalderan/xebicon-database:${parameters.version}",
+                    "name": "xebicon-database",
+                    "ports": [
+                      {
+                        "containerPort": 27017
+                      }
+                    ]
+                  }
+                ]
+              }
+            }
+          }
+        }
+      ],
+      "moniker": {
+        "app": "xebicon-app"
+      },
+      "name": "Deploy ReplicaSet",
+      "refId": "3",
+      "requisiteStageRefIds": [
+        "1"
+      ],
+      "skipExpressionEvaluation": false,
+      "source": "text",
+      "trafficManagement": {
+        "enabled": false,
+        "options": {
+          "enableTraffic": false,
+          "services": []
+        }
+      },
+      "type": "deployManifest"
+    }
+  ],
+  "triggers": []
+}
 ```
  </p>
 </details>
