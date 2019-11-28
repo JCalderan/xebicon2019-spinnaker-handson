@@ -357,6 +357,200 @@ When the new Server Group is ready, the old one is automatically deleted.
     Click "Pipeline Actions" (upper right), then click "Edit as JSON", and copy paste the following JSON.  
 
 ```json
+{
+  "keepWaitingPipelines": false,
+  "limitConcurrent": true,
+  "parameterConfig": [
+    {
+      "default": "v1",
+      "description": "",
+      "hasOptions": true,
+      "label": "version",
+      "name": "version",
+      "options": [
+        {
+          "value": "v1"
+        }
+      ],
+      "pinned": false,
+      "required": true
+    }
+  ],
+  "stages": [
+    {
+      "account": "kubernetes",
+      "cloudProvider": "kubernetes",
+      "manifests": [
+        {
+          "apiVersion": "v1",
+          "kind": "Service",
+          "metadata": {
+            "name": "xebicon-backend"
+          },
+          "spec": {
+            "ports": [
+              {
+                "port": 80,
+                "protocol": "TCP"
+              }
+            ],
+            "selector": {
+              "workload-app": "xebicon-backend",
+              "workload-environment": "dev",
+              "workload-version": "${parameters.version}"
+            }
+          }
+        }
+      ],
+      "moniker": {
+        "app": "xebicon-app"
+      },
+      "name": "Deploy Service",
+      "refId": "1",
+      "requisiteStageRefIds": [],
+      "skipExpressionEvaluation": false,
+      "source": "text",
+      "trafficManagement": {
+        "enabled": false,
+        "options": {
+          "enableTraffic": false,
+          "services": []
+        }
+      },
+      "type": "deployManifest"
+    },
+    {
+      "account": "kubernetes",
+      "cloudProvider": "kubernetes",
+      "manifests": [
+        {
+          "apiVersion": "networking.k8s.io/v1beta1",
+          "kind": "Ingress",
+          "metadata": {
+            "annotations": {
+              "nginx.ingress.kubernetes.io/rewrite-target": "/$2"
+            },
+            "name": "xebicon-backend-ingress"
+          },
+          "spec": {
+            "rules": [
+              {
+                "http": {
+                  "paths": [
+                    {
+                      "backend": {
+                        "serviceName": "xebicon-backend",
+                        "servicePort": 80
+                      },
+                      "path": "/xebicon-backend(/|$)(.*)"
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "moniker": {
+        "app": "xebicon-app"
+      },
+      "name": "Deploy Ingress",
+      "refId": "2",
+      "requisiteStageRefIds": [
+        "1"
+      ],
+      "skipExpressionEvaluation": false,
+      "source": "text",
+      "trafficManagement": {
+        "enabled": false,
+        "options": {
+          "enableTraffic": false,
+          "services": []
+        }
+      },
+      "type": "deployManifest"
+    },
+    {
+      "account": "kubernetes",
+      "cloudProvider": "kubernetes",
+      "manifests": [
+        {
+          "apiVersion": "apps/v1",
+          "kind": "ReplicaSet",
+          "metadata": {
+            "labels": {
+              "workload-app": "xebicon-backend",
+              "workload-environment": "dev",
+              "workload-version": "${parameters.version}"
+            },
+            "name": "xebicon-backend"
+          },
+          "spec": {
+            "replicas": 1,
+            "selector": {
+              "matchLabels": {
+                "app": "xebicon-backend",
+                "environment": "dev",
+                "version": "${parameters.version}"
+              }
+            },
+            "template": {
+              "metadata": {
+                "labels": {
+                  "app": "xebicon-backend",
+                  "environment": "dev",
+                  "version": "${parameters.version}"
+                }
+              },
+              "spec": {
+                "containers": [
+                  {
+                    "env": [
+                      {
+                        "name": "DB_URL",
+                        "value": "mongodb://xebicon-database:27017"
+                      }
+                    ],
+                    "image": "jcalderan/xebicon-backend:${parameters.version}",
+                    "name": "xebicon-backend",
+                    "ports": [
+                      {
+                        "containerPort": 80
+                      }
+                    ]
+                  }
+                ]
+              }
+            }
+          }
+        }
+      ],
+      "moniker": {
+        "app": "xebicon-app"
+      },
+      "name": "Deploy ReplicaSet",
+      "refId": "3",
+      "requisiteStageRefIds": [
+        "2"
+      ],
+      "skipExpressionEvaluation": false,
+      "source": "text",
+      "trafficManagement": {
+        "enabled": true,
+        "options": {
+          "enableTraffic": true,
+          "namespace": "default",
+          "services": [
+            "service xebicon-backend"
+          ],
+          "strategy": "highlander"
+        }
+      },
+      "type": "deployManifest"
+    }
+  ],
+  "triggers": []
+}
 ```
   </p>
 </details
