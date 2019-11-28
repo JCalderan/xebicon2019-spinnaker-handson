@@ -128,7 +128,7 @@ You can also refresh ```http://${clusterURL}/xebicon-frontend``` in order to see
   "parameterConfig": [
     {
       "default": "v2",
-      "description": "",
+      "description": "application version",
       "hasOptions": true,
       "label": "version",
       "name": "version",
@@ -164,8 +164,7 @@ You can also refresh ```http://${clusterURL}/xebicon-frontend``` in order to see
             ],
             "selector": {
               "app": "xebicon-frontend",
-              "environment": "dev",
-              "version": "${parameters.version}"
+              "environment": "dev"
             }
           }
         }
@@ -247,7 +246,8 @@ You can also refresh ```http://${clusterURL}/xebicon-frontend``` in order to see
           "kind": "ReplicaSet",
           "metadata": {
             "labels": {
-              "app": "xebicon-frontend"
+              "app": "xebicon-frontend",
+              "environment": "dev"
             },
             "name": "xebicon-frontend"
           },
@@ -256,22 +256,20 @@ You can also refresh ```http://${clusterURL}/xebicon-frontend``` in order to see
             "selector": {
               "matchLabels": {
                 "app": "xebicon-frontend",
-                "environment": "dev",
-                "version": "${parameters.version}"
+                "environment": "dev"
               }
             },
             "template": {
               "metadata": {
                 "labels": {
                   "app": "xebicon-frontend",
-                  "environment": "dev",
-                  "version": "${parameters.version}"
+                  "environment": "dev"
                 }
               },
               "spec": {
                 "containers": [
                   {
-                    "image": "jcalderan/xebicon-frontend:${parameters.version}",
+                    "image": "jcalderan/xebicon-frontend:v1",
                     "name": "xebicon-frontend",
                     "ports": [
                       {
