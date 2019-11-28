@@ -11,7 +11,7 @@
 
 - In the `Enable (Manifest) Configuration`:
 
-    - Select the namespace where did you deployed you application
+    - Select the namespace where did you deployed your application
 
     - Select ReplicaSet as Kind
 
@@ -27,13 +27,13 @@
 
 * Choose stage type `disable manifest`.
 
-* Make sur that this stage depend on `Enable previous version`
+* Make sure that this stage depend on `Enable previous version`
 
 * You can name the stage : `disable newest version`
 
 - In the `Disable (Manifest) Configuration`:
 
-    - Select the namespace where did you deployed you application
+    - Select the namespace where did you deployed your application
 
     - Select ReplicaSet as Kind
 

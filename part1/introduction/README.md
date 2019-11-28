@@ -1,14 +1,14 @@
 # Introduction
 Spinnaker is an open-source Continuous Deployment tool developed by Netflix in collaboration with Google, Pivotal, and Microsoft.  
 
-Spinnaker ship drivers for multiple cloud providers, interfaces with numerous continuous integration tools, implements built-in deployment strategies inspired by deployment best practices, and provides tools to orchestrate deployment workflow.  
+Spinnaker ship with drivers for multiple cloud providers, interfaces for interop with numerous continuous integration tools, implements built-in deployment strategies based on continuous delivery best practices, and provides tools to orchestrate deployment workflow.  
 
 ## Concepts
-Spinnaker defines the following [concepts](https://www.spinnaker.io/concepts/) which provide an unified way to orchestrate deployment regardless of the targeted cloud provider.
+Spinnaker defines the following [concepts](https://www.spinnaker.io/concepts/) which provide a unified way to orchestrate deployment regardless of the targeted cloud provider.
 
 ### Pipeline
-[Pipelines](https://www.spinnaker.io/concepts/#pipeline) are the key to orchestrating deployment with Spinnaker.
-Pipelines are composed of [Stages](https://www.spinnaker.io/concepts/#stage) which represent an action to perform, and each Cloud Provider implemented by Spinnaker comes with dedicated Stages.  
+[Pipeline](https://www.spinnaker.io/concepts/#pipeline) is the key abstraction concept to orchestrate deployment with Spinnaker.
+Pipelines are composed of [Stages](https://www.spinnaker.io/concepts/#stage) which represent a logical grouping of actions to be perform, and each cloud provider supported by Spinnaker comes with dedicated Stages.  
 ![pipelines](pipelines.png)  
 
 ### Server Group
@@ -17,7 +17,7 @@ For instance, if we deploy an NGINX application with a Kubernetes ReplicaSet, Sp
 
 ### Cluster
 [Clusters](https://www.spinnaker.io/concepts/clusters/) are logical grouping of Server Groups.
-For instance, if we deploy successively three version of an application, Spinnaker will create one Cluster with three Server Group.  
+For instance, if we deploy successively three versions of an application, Spinnaker will create one Cluster with three Server Group.  
 
 ### Load Balancer
 Load balancer represent an Ingress resource balancing traffic between instances inside a Server Groups.  
@@ -31,7 +31,7 @@ A Firewall defines network traffic access. It is effectively a set of firewall r
 For instance, in a micro-service architecture an application might represent a service, and will group its Cluster, Server Groups, Load Balancers, Firewalls, and Pipelines.
 
 ### Summary
-The following diagram shows how theses concepts works together.
+The following diagram shows how these concepts works together.
 ![Clusters](clusters.png)
 
 ## Architecture
@@ -52,6 +52,6 @@ The following diagram shows how each of theses micro-services interact with each
 ![A diagram showing how services interact with each others](./spinnaker_architecture_schema.jpeg)  
 More information can be found on the [official Spinnaker documentation](https://www.spinnaker.io/reference/architecture/).
 
-Installing Spinnaker being outside of the scope of this hands-on, all theses services have already been deployed on Kubernetes.
+Installing Spinnaker being outside the scope of this hands-on, all these services have already been deployed on Kubernetes.
 
 [next](../exercise1/README.md)

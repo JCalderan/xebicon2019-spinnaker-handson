@@ -1,5 +1,5 @@
 # Xebicon-app - version 2
-In the [previous exercise](../exercise2/README.md) we learnt to parametrize our pipeline, 
+In the [previous exercise](../exercise2/README.md) we learned to parameterize our pipeline, 
 and we added a new parameter "version".
 
 This version v2 of *xebicon-frontend* uses a backend application in order to fetch the Xebicon slots to display.  
@@ -17,7 +17,7 @@ route the request to any node of the Kubernetes cluster.
 An [Ingress Controller](https://kubernetes.io/docs/concepts/services-networking/ingress-controllers/) runs on every node, and will read [Ingress](https://kubernetes.io/fr/docs/concepts/services-networking/ingress/) rules in order to know to which Service the request should be routed.  
 In turn, Services will route traffic to Pods matching their selectors.  
 There is no Ingress rule for the database because 
-we wont access it from outside of the cluster, however a Service must exists in order for other application within the cluster to access the database.
+we won't access it from outside of the cluster, however a Service must exists in order for other application within the cluster to access the database.
 
 ## Setting up the backend application
 This application is a simple Node.js application which **listen on port 80**, and exposes **two endpoints**:
@@ -25,7 +25,7 @@ This application is a simple Node.js application which **listen on port 80**, an
 - /health: return ```200 OK {"status": "up"}``` when the application is up and running
 
 Create a new pipeline "**backend-dev**":
-- the application is only available in verson 'v1'
+- the application is only available in version 'v1'
 - deploy a new Service named "xebicon-backend", listening on port 80
 - deploy a new Ingress named "xebicon-backend", exposing a backend path "/xebicon-backend"
 - deploy a Kubernetes ReplicaSet (use the docker image ```jcalderan/xebicon-backend```)
@@ -41,7 +41,7 @@ This application is a single node MongoDB database which **listen on port 27017*
 The database being **unreachable from the outside of the cluster**, we won't deploy an Ingress rule for this application.
 
 Create a new pipeline "**database-dev**":
-- the application is only available in verson 'v1'
+- the application is only available in version 'v1'
 - deploy a new Service named "xebicon-database", listening on port 27017
 - deploy a Kubernetes replicaSet (use the docker image ```jcalderan/xebicon-database```)
 
@@ -56,7 +56,7 @@ At this point, you should have three pipelines. Run all of them:
 - backend-dev: deploy version 1
 - database-dev: deploy version 1
 
-All pipeline should be successfull.
+All pipeline should be successful.
 ![xebistack pipeline](./xebi-stack-pipelines.png)
 
 Does that mean our application is working as expected ?
@@ -64,7 +64,7 @@ Go back to the xebicon-frontend homepage (```http://${clusterURL}/xebicon-fronte
 This is because we deployed the backend Ingress rules, allowing the frontend application to access the backend API, however we didn't configure the link between the backend API and the database.  
 This mean our backend API receives traffic while one of its critical dependency is unreachable.
 
-> A successfull deployment doesn't mean a working application. Be sure to implement health checks to detect healthy components and identify components which are ready to receive traffic.
+> A successful deployment doesn't mean a working application. Be sure to implement health checks to detect healthy components and identify components which are ready to receive traffic.
 
 Kubernetes allows us to define [probes](https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle/#container-probes) in order to monitor our application lifecycle (running, ready, dead).  
 

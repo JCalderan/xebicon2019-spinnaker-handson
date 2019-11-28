@@ -1,7 +1,7 @@
 # Highlander deployment
 In the [previous exercise](../exercise3/README.md) we set up the *xebicon-app* deployment pipelines.  
 An issue remains: the successive execution of each Pipeline creates outdated but still active Server Groups.  
-If you encountered issues with your deployments, you might already had to manually delete some of these.
+If you encountered issues with your deployments, you may have to manually delete some of these server groups.
 
 Is there a way to delete automatically old Server Groups when deploying new ones ?
 
@@ -273,7 +273,7 @@ Finally, as the new Server Group stabilizes, the old one is removed.
 
 ## Built-in deployment strategies
 Spinnaker provides a set of built-in deployment strategies, such as Highlander, Red/Black or Canary.
-These strategies implementations are tightly coupled with the Cloud Provider in use (here: Kubernetes Cloud Provider v2), performing deployment in regard of Cloud Provider constraints and deployment best practices. 
+These strategies implementations are tightly coupled with the Cloud Provider in use (here: Kubernetes Cloud Provider v2), performing deployment in regard of Cloud Provider constraints and deployment's best practices. 
 
 ### Exercise
 We will modify the **backend-dev** to use the Highlander built-in strategy.  

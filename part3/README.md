@@ -4,7 +4,7 @@
 
 Blue/Green deployment, also called Red/Black in Spinnaker, is a deployment pattern based on switching traffic between two identical environments running different versions of an application.
 
-This technique allows to avoid common pitfall associated with deploying a software, such as downtime and the lack of rollback capability.
+This technique allows avoiding common pitfall associated with deploying a software, such as downtime and the lack of rollback capability.
 
 Blue environment represents the current version of the application served in production. In parallel, the green environment is staged running a different version of the application. After the green environment is ready and tested, production traffic is redirected from blue to green environment.
 

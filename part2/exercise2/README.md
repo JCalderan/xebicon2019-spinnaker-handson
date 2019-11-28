@@ -15,7 +15,7 @@ Spinnaker defines a specification in order to describe artifacts, and every arti
 ```
 {
   "type":       // How this artifact is classified. Allows for easy distinction
-                // between docker images and debian packages, for example.
+                // between docker images and Debian packages, for example.
 
   "reference":  // The URI.
 
@@ -75,11 +75,11 @@ Here is an example payload for a [webHook automated trigger](https://www.spinnak
 }
 ```
 
-A pipeline can always be trigger manually, even if it specify an automated trigger.
+A pipeline can always be trigger manually, even if it specifies an automated trigger.
 
 ## Parameters
 This section allows us to define parameters for our pipeline.  
-Theses parameters can be accessed by downstream stages, and they take the form of key/value pairs with additional meta-data attached, 
+These parameters can be accessed by downstream stages, and they take the form of key/value pairs with additional meta-data attached, 
 as a default value and/or a set of options from which users can pick the value from.  
 
 Parameters, as well as other variables injected in the pipeline execution context, can be referenced using the Spinnaker's [Pipeline Expression Language](https://www.spinnaker.io/reference/pipeline/expressions/).  
@@ -109,7 +109,7 @@ Modify the pipeline in order be able to specify the version at runtime:
 Head to the Infrastructure view: a new replicaSet has been deployed, and the 'Load Balancer' (our Service) switched from the previous Service Group to the new one.  
 ![Load balancer migration](./serviceMigration.png)  
 
-You can also refresh ```http://${clusterURL}/xebicon-frontend``` in order to see the new version deployed (it display an error message because this version of the application need a backend application to get its data).
+You can also refresh ```http://${clusterURL}/xebicon-frontend``` in order to see the new version deployed (it displays an error message because this version of the application need a backend application to get its data).
 
 ## Summary
 - parameters and other variables can be injected into Manifests using SpEL syntax

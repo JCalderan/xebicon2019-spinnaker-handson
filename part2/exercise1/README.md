@@ -44,9 +44,9 @@ spec:
       port: 80
 ```
 
-This manifest configure a [Kubernetes Service](https://kubernetes.io/docs/concepts/services-networking/service/) which allows other applications to access the xebicon-frontend application's pods.  
+This manifest configures a [Kubernetes Service](https://kubernetes.io/docs/concepts/services-networking/service/) which allows other applications to access the xebicon-frontend application's pods.  
 The following diagram, from the Kubernetes documentation on the [CoreOS website](https://coreos.com/kubernetes/docs/latest/services.html), 
-shows how the service **select** the pods which will receive traffics according the their **labels**.
+shows how the service **select** the pods which will receive traffics according to their **labels**.
 ![Kubernetes Schema diagram](https://coreos.com/kubernetes/docs/latest/img/service.svg)
 
 ### Ingress stage
@@ -78,7 +78,7 @@ spec:
               serviceName: xebicon-frontend
               servicePort: 80
 ```
-This manifest describe an [Ingress rule](https://kubernetes.io/docs/concepts/services-networking/ingress/) used by the cluster's [Ingress Controller](https://kubernetes.io/docs/concepts/services-networking/ingress-controllers/) in order to route incoming traffic to the right Service, which in turn will route traffic to the right pods.
+This manifest describes an [Ingress rule](https://kubernetes.io/docs/concepts/services-networking/ingress/) used by the cluster's [Ingress Controller](https://kubernetes.io/docs/concepts/services-networking/ingress-controllers/) in order to route incoming traffic to the right Service, which in turn will route traffic to the right pods.
 
 
 ### ReplicaSet stage
@@ -137,7 +137,7 @@ Click the button "**Start manual execution**".
 After a few seconds, your pipeline execution completes.
 ![Your pipeline execution complete](./pipelineCompleted1.png)
 
-Take a moment to click on each steps and play with the pipeline results output.  
+Take a moment to click on each step and play with the pipeline results output.  
 
 Go to the "**Infrastructure**" tab : a new Cluster Group has been created, as well as a new Load Balancer (in Spinnaker terms, not Kubernetes).  
 ![Infrastructure view](./infrastructure.png)
@@ -155,7 +155,7 @@ You can find the URL of your cluster here:
 You should be able to access the application at ```http://${clusterURL}/xebicon-frontend```.
 
 ### Summary
-Our Pipeline ensure new pods won't be deployed if an error occurs during the Ingress/Service stage: using Pipelines, we are able to coordinate deployment stages which depends on each others completion status.  
+Our Pipeline ensure new pods won't be deployed if an error occurs during the Ingress/Service stage: using Pipelines, we are able to coordinate deployment stages which depends on each other completion status.  
 
 ## Solution
 <details>  
@@ -332,4 +332,4 @@ Our Pipeline ensure new pods won't be deployed if an error occurs during the Ing
   </p>
 </details>
 
-[next](../exercise2/README.md)
+[previous](../../part1/exercise1/README.md) | [next](../exercise2/README.md)
