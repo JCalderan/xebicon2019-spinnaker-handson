@@ -153,8 +153,7 @@ You can also refresh ```http://${clusterURL}/xebicon-frontend``` in order to see
           "apiVersion": "v1",
           "kind": "Service",
           "metadata": {
-            "name": "xebicon-frontend",
-            "version": "${parameters.version}"
+            "name": "xebicon-frontend"
           },
           "spec": {
             "ports": [
@@ -165,7 +164,8 @@ You can also refresh ```http://${clusterURL}/xebicon-frontend``` in order to see
             ],
             "selector": {
               "app": "xebicon-frontend",
-              "environment": "dev"
+              "environment": "dev",
+              "version": "${parameters.version}"
             }
           }
         }
