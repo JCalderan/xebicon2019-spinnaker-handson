@@ -269,7 +269,8 @@ Our Pipeline ensure new pods won't be deployed if an error occurs during the Ing
           "kind": "ReplicaSet",
           "metadata": {
             "labels": {
-              "app": "xebicon-frontend"
+              "app": "xebicon-frontend",
+              "environment": "dev"
             },
             "name": "xebicon-frontend"
           },
