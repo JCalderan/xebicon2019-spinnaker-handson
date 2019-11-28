@@ -153,7 +153,8 @@ You can also refresh ```http://${clusterURL}/xebicon-frontend``` in order to see
           "apiVersion": "v1",
           "kind": "Service",
           "metadata": {
-            "name": "xebicon-frontend"
+            "name": "xebicon-frontend",
+            "version": "${parameters.version}"
           },
           "spec": {
             "ports": [
@@ -247,7 +248,8 @@ You can also refresh ```http://${clusterURL}/xebicon-frontend``` in order to see
           "metadata": {
             "labels": {
               "app": "xebicon-frontend",
-              "environment": "dev"
+              "environment": "dev",
+              "version": "${parameters.version}"
             },
             "name": "xebicon-frontend"
           },
@@ -256,20 +258,22 @@ You can also refresh ```http://${clusterURL}/xebicon-frontend``` in order to see
             "selector": {
               "matchLabels": {
                 "app": "xebicon-frontend",
-                "environment": "dev"
+                "environment": "dev",
+                "version": "${parameters.version}"
               }
             },
             "template": {
               "metadata": {
                 "labels": {
                   "app": "xebicon-frontend",
-                  "environment": "dev"
+                  "environment": "dev",
+                  "version": "${parameters.version}"
                 }
               },
               "spec": {
                 "containers": [
                   {
-                    "image": "jcalderan/xebicon-frontend:v1",
+                    "image": "jcalderan/xebicon-frontend:${parameters.version}",
                     "name": "xebicon-frontend",
                     "ports": [
                       {
